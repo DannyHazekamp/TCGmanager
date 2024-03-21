@@ -1,0 +1,15 @@
+{
+    "name": "danny/mv-cframework",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Danny",
+            "email": "danny05062002@gmail.com"
+        }
+    ],
+    "require": {}
+}
