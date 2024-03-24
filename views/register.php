@@ -10,7 +10,7 @@
   </div>
   <div class="form-group">
     <label>Password</label>
-    <input type="password" name="password "class="form-control" placeholder="Password">
+    <input type="password" name="password" class="form-control" placeholder="Password">
   </div>
   <div class="form-group">
     <label>Confirm Password</label>
