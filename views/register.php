@@ -12,9 +12,5 @@
     <label>Password</label>
     <input type="password" name="password" class="form-control" placeholder="Password">
   </div>
-  <div class="form-group">
-    <label>Confirm Password</label>
-    <input type="password" name="passwordConfirm" class="form-control" placeholder="Password">
-  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
