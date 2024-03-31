@@ -11,13 +11,11 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $registerModel = new RegisterModel();
+        $registerModel->username = '';
+        $registerModel->email = '';
+        $registerModel->password = '';
         if($request->is_method_post()){
             $registerModel->loadData($request->getBody());
-
-            echo '<pre>';
-            var_dump($registerModel);
-            echo '</pre>';
-            exit;
             
             if($registerModel->validate() && $registerModel->register()){
                 return 'Success';

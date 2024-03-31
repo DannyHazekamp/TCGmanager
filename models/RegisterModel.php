@@ -19,7 +19,7 @@ class RegisterModel extends Model
         return [
             'username' => [self::REQUIRED],
             'email' => [self::REQUIRED, self::VALID_EMAIL],
-            'password' => [self::REQUIRED, [self::MIN => '6'], [SELF::MAX => '32']]
+            'password' => [self::REQUIRED]
         ];
     }
 
