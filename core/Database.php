@@ -9,7 +9,7 @@ class Database
     public function __construct()
     {
         // Het pad naar het .env bestand instellen
-        $dotenvPath = __DIR__ . '../.env';
+        $dotenvPath = '../.env';
 
         // Controleer of het .env bestand bestaat
         if (file_exists($dotenvPath)) {
@@ -28,5 +28,9 @@ class Database
         } else {
             throw new \Exception('.env file not found');
         }
+    }
+
+    public function prepare($sql) {
+        return $this->pdo->prepare($sql);
     }
 }

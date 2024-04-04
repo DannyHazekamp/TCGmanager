@@ -8,6 +8,7 @@ abstract class Model
     public const VALID_EMAIL = 'email';
     public const MIN = 'min';
     public const MAX = 'max';
+    public const UNIQUE = 'unique';
 
 
     public function loadData($data)
@@ -28,12 +29,28 @@ abstract class Model
         foreach($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
             foreach($rules as $rule) {
-                if($rule === self::REQUIRED && !$value) {
-                    $this->addError($attribute, self::REQUIRED);
+                $ruleName = $rule;
+                if(!is_string($ruleName)) {
+                    $ruleName = $rule[0];
+                }
+                if($ruleName === self::REQUIRED && !$value) {
+                    $this->addErrorRule($attribute, self::REQUIRED);
                 }
 
-                if($rule === self::VALID_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $this->addError($attribute, self::VALID_EMAIL);
+                if($ruleName === self::VALID_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $this->addErrorRule($attribute, self::VALID_EMAIL);
+                }
+                if($ruleName === self::UNIQUE) {    
+                    $className = $rule['class'];
+                    $uniqueAttribute = $rule['attribute'] ?? $attribute;
+                    $tableName = $className::tableName();
+                    $statement = App::$app->db->prepare("SELECT * FROM $tableName WHERE $uniqueAttribute = :attribute");
+                    $statement->bindValue(":attribute", $value);
+                    $statement->execute();
+                    $rec = $statement->fetchObject();
+                    if ($rec) {
+                        $this->addErrorRule($attribute, self::UNIQUE);
+                    }
                 }
             }
         }
@@ -41,9 +58,14 @@ abstract class Model
         return empty($this->errors);
     }
 
-    public function addError(string $attribute, string $rule)
+    private function addErrorRule(string $attribute, string $rule)
     {
         $message = $this->errorMessages()[$rule] ?? '';
+        $this->errors[$attribute][] = $message;
+    }
+
+    public function addError(string $attribute, string $message)
+    {
         $this->errors[$attribute][] = $message;
     }
 
@@ -53,7 +75,8 @@ abstract class Model
             self::REQUIRED => 'This field is required',
             self::VALID_EMAIL => 'This field must be a valid email',
             self::MIN => 'Min length of this field must be {min}',
-            self::MAX => 'Max length of this field must be {max}'
+            self::MAX => 'Max length of this field must be {max}',
+            self::UNIQUE => 'This email already exists'
         ];
     }
 

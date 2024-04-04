@@ -4,33 +4,46 @@ namespace app\controllers;
 
 use app\core\Controller;
 use app\core\Request;
-use app\models\RegisterModel;
+use app\models\User;
+use app\core\Response;
+use app\core\App;
+use app\models\LoginModel;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+
+    public function register(Request $request, Response $response)
     {
-        $registerModel = new RegisterModel();
-        $registerModel->username = '';
-        $registerModel->email = '';
-        $registerModel->password = '';
+        $user = new User();
+        $user->username = '';
+        $user->email = '';
+        $user->password = '';
         if($request->is_method_post()){
-            $registerModel->loadData($request->getBody());
+            $user->loadData($request->getBody());
             
-            if($registerModel->validate() && $registerModel->register()){
-                return 'Success';
+            if($user->validate() && $user->save()){
+                $response->redirect('/');
             }
             return $this->render('register', [
-                'model' => $registerModel
+                'model' => $user
             ]);
         }
         return $this->render('register', [
-            'model' => $registerModel
+            'model' => $user
         ]);
     }
 
-    public function login() 
+    public function login(Request $request, Response $response) 
     {
-        return $this->render('login');
+        $loginModel = new LoginModel();
+        if($request->is_method_post()) {
+            $loginModel->loadData($request->getBody());
+            if($loginModel->validate() && $loginModel->login()) {
+                $response->redirect('/');
+            }
+        }
+        return $this->render('login', [
+            'model' => $loginModel
+        ]);
     }
 }
