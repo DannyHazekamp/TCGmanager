@@ -28,7 +28,6 @@ class AdminController extends Controller
         $set = new Set();
 
         $set->name = '';
-        $set->release_date = '';
 
         if($request->is_method_post()) {
             $set->loadData($request->getBody());
@@ -36,12 +35,12 @@ class AdminController extends Controller
                 $response->redirect('/dashboard');
             }
 
-            return $this->render('set.set_create', [
+            return $this->render('admin.set_create', [
                 'model' => $set
             ]);
         }
 
-        return $this->render('set.set_create', [
+        return $this->render('admin.set_create', [
             'model' => $set
         ]);
     }
@@ -56,8 +55,8 @@ class AdminController extends Controller
         $card->attack = 0;
         $card->defense = 0;
         $card->rarity = '';
-        $card->price = '';
-        $card->set_id = '';
+        $card->price = 0.0;
+        $card->set_id = 0;
 
         if($request->is_method_post()) {
             $card->loadData($request->getBody());

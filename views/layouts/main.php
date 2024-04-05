@@ -29,6 +29,12 @@ use app\core\App;
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">dashboard</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard/sets">sets</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard/cards">cards</a>
+            </li>
             </ul>
 
             <?php if (App::isNotAuthenticated()): ?>

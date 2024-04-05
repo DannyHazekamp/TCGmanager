@@ -7,12 +7,5 @@
       <?php echo $model->getError('name') ?>
     </div>
   </div>
-  <div class="form-group">
-    <label>Release date</label>
-    <input type="text" name="release_date" value="<?php echo $model->release_date ?>" class="form-control <?php echo $model->hasError('release_date') ? 'is-invalid' : '' ?>" placeholder="Enter release date">
-    <div class="invalid-feedback">
-      <?php echo $model->getError('release_date') ?>
-    </div>
-  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

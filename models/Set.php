@@ -7,11 +7,10 @@ use app\core\DbModel;
 class Set extends DbModel
 {
     public string $name;
-    public string $release_date;
 
     public static function tableName(): string
     {
-        return 'cards';
+        return 'sets';
     }
 
 
@@ -23,13 +22,12 @@ class Set extends DbModel
     public function rules(): array
     {
         return [
-            'name' => [self::REQUIRED],
-            'release_date' => [self::REQUIRED]
+            'name' => [self::REQUIRED]
         ];
     }
 
     public function attributes(): array
     {
-        return ['name', 'release_date'];
+        return ['name'];
     }
 }
