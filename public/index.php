@@ -25,5 +25,9 @@ $app->router->get('/logout', [AuthController::class, 'logout']);
 
 // admin
 $app->router->get('/dashboard', [AdminController::class, 'dashboard']);
+$app->router->get('/dashboard/sets', [AdminController::class, 'createSet']);
+$app->router->post('/dashboard/sets', [AdminController::class, 'createSet']);
+$app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
+$app->router->post('/dashboard/cards', [AdminController::class, 'createCard']);
 
 $app->run();

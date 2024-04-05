@@ -13,7 +13,10 @@ abstract class DbModel extends Model
         return 'user_id';
     }
 
-    abstract public static function roleId(): string;
+    public static function roleId(): string
+    {
+        return 'role_id';
+    }
 
     public function save()
     {

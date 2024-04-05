@@ -18,11 +18,6 @@ class Role extends DbModel
     {
         return '';
     }
-
-    public static function roleId(): string
-    {
-        return 'role_id';
-    }
     
     public function rules(): array
     {

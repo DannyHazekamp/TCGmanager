@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\core\Controller;
 use app\models\User;
 use app\models\Card;
+use app\models\Set;
 use app\core\Request;
 use app\core\Response;
 use app\core\App;
@@ -22,14 +23,38 @@ class AdminController extends Controller
         ]);
     }
 
+    public function createSet(Request $request, Response $response)
+    {
+        $set = new Set();
+
+        $set->name = '';
+        $set->release_date = '';
+
+        if($request->is_method_post()) {
+            $set->loadData($request->getBody());
+            if($set->validate() && $set->save()) {
+                $response->redirect('/dashboard');
+            }
+
+            return $this->render('set.set_create', [
+                'model' => $set
+            ]);
+        }
+
+        return $this->render('set.set_create', [
+            'model' => $set
+        ]);
+    }
+
+
     public function createCard(Request $request, Response $response)
     {
 
         $card = new Card();
 
         $card->name = '';
-        $card->attack = '';
-        $card->defense = '';
+        $card->attack = 0;
+        $card->defense = 0;
         $card->rarity = '';
         $card->price = '';
         $card->set_id = '';
@@ -37,8 +62,17 @@ class AdminController extends Controller
         if($request->is_method_post()) {
             $card->loadData($request->getBody());
 
-            
+            if($card->validate() && $card->save()){
+                $response->redirect('/dashboard');
+            }
+            return $this->render('admin.card_create', [
+                'model' => $card
+            ]);
         }
+
+        return $this->render('admin.card_create', [
+            'model' => $card
+        ]);
 
     }
 }

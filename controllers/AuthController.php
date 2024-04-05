@@ -24,11 +24,11 @@ class AuthController extends Controller
             if($user->validate() && $user->save()){
                 $response->redirect('/');
             }
-            return $this->render('register', [
+            return $this->render('auth.register', [
                 'model' => $user
             ]);
         }
-        return $this->render('register', [
+        return $this->render('auth.register', [
             'model' => $user
         ]);
     }
@@ -46,7 +46,7 @@ class AuthController extends Controller
                 $response->redirect('/');
             }
         }
-        return $this->render('login', [
+        return $this->render('auth.login', [
             'model' => $loginModel
         ]);
     }
