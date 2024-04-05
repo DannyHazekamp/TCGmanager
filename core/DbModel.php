@@ -8,7 +8,12 @@ abstract class DbModel extends Model
 
     abstract public function attributes(): array;
 
-    abstract public static function userId(): string;
+    public static function userId(): string
+    {
+        return 'user_id';
+    }
+
+    abstract public static function roleId(): string;
 
     public function save()
     {
@@ -37,6 +42,23 @@ abstract class DbModel extends Model
 
         $statement->execute(); 
         return $statement->fetchObject(static::class);
+    }
+
+    public static function findAll()
+    {
+        $tableName = static::tableName();
+        $statement = self::prepare("SELECT * FROM $tableName");
+        $statement->execute(); 
+        return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
+
+    public function belongsTo($class, $foreignKey)
+    {
+        $tableName = $class::tableName();
+
+        $foreignKeyValue = $this->{$foreignKey};
+
+        return $class::findOne([$class::roleId() => $foreignKeyValue]);
     }
 
     public static function prepare($sql) 

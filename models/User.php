@@ -17,9 +17,10 @@ class User extends DbModel
         return 'users';
     }
 
-    public static function userId(): string 
+
+    public static function roleId(): string 
     {
-        return 'user_id';
+        return 'role_id';
     }
 
     public function save()
@@ -41,6 +42,11 @@ class User extends DbModel
     public function attributes(): array
     {
         return ['username', 'email', 'password', 'role_id'];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
 }
