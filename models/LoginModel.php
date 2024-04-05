@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\core\App;
 use app\core\Model;
 
 class LoginModel extends Model 

@@ -36,6 +36,10 @@ class AuthController extends Controller
     public function login(Request $request, Response $response) 
     {
         $loginModel = new LoginModel();
+
+        $loginModel->email = '';
+        $loginModel->password = '';
+
         if($request->is_method_post()) {
             $loginModel->loadData($request->getBody());
             if($loginModel->validate() && $loginModel->login()) {
@@ -45,5 +49,11 @@ class AuthController extends Controller
         return $this->render('login', [
             'model' => $loginModel
         ]);
+    }
+
+    public function logout(Request $request, Response $response)
+    {
+        App::$app->logout();
+        $response->redirect('/');
     }
 }

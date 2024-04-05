@@ -12,9 +12,14 @@ class User extends DbModel
     public string $password;
     public int $role_id;
 
-    public function tableName(): string
+    public static function tableName(): string
     {
         return 'users';
+    }
+
+    public static function userId(): string 
+    {
+        return 'user_id';
     }
 
     public function save()

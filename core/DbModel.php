@@ -4,9 +4,11 @@ namespace app\core;
 
 abstract class DbModel extends Model 
 {
-    abstract public function tableName(): string;
+    abstract public static function tableName(): string;
 
     abstract public function attributes(): array;
+
+    abstract public static function userId(): string;
 
     public function save()
     {
@@ -23,7 +25,7 @@ abstract class DbModel extends Model
 
     }
 
-    public function findOne($where) 
+    public static function findOne($where) 
     {
         $tableName = static::tableName();
         $attributes = array_keys($where);

@@ -47,6 +47,7 @@ class Router
 
     public function render($view, $params = [])
     {
+
         $content = $this->content();
         $viewContent = $this->renderView($view, $params);
         return str_replace('{{content}}', $viewContent, $content);
@@ -61,7 +62,7 @@ class Router
     protected function content() 
     {
         ob_start();
-        include_once App::$ROOT_DIRECTORY."/views/layouts/main.php"; 
+        include_once App::$ROOT_DIRECTORY . "/views/layouts/main.php";; 
         return ob_get_clean();
     }
 
@@ -70,8 +71,10 @@ class Router
         foreach($params as $key => $value) {
             $$key = $value;
         }
+        $viewPath = str_replace('.', '/', $view);
+
         ob_start();
-        include_once App::$ROOT_DIRECTORY."/views/$view.php"; 
+        include_once App::$ROOT_DIRECTORY."/views/$viewPath.php"; 
         return ob_get_clean();
     }
 
