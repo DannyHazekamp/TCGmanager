@@ -31,11 +31,6 @@ class Request
         return $this->method() === 'post';
     }
 
-    public function is_method_put()
-    {
-        return $this->method() === 'put';
-    }
-
     public function getBody()
     {   
         $body = [];
@@ -49,12 +44,6 @@ class Request
         if($this->method() === 'post'){
             foreach($_POST as $key => $value){
                 $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
-        }
-
-        if($this->method() === 'put'){
-            foreach($_PUT as $key => $value){
-                $body[$key] = filter_input(INPUT_PUT, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
         }
 

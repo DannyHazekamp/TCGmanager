@@ -94,5 +94,26 @@ class AdminController extends Controller
         $user_id = $params['id'];
 
         $user = User::findOne(['user_id' => $user_id]);
+        $oldEmail = $user->email;
+        
+        if($request->is_method_post()) {
+            $user->loadData($request->getBody());
+
+            if ($oldEmail !== $user->email) {
+                if ($user->validate()) {
+                    if ($user->update()) {
+                        $response->redirect('/dashboard');
+                    }
+                }
+            } else {
+                if ($user->update()) {
+                    $response->redirect('/dashboard');
+                }
+            }
+        }
+
+        return $this->render('admin.user_edit', [
+            'user' => $user
+        ]);
     }
 }

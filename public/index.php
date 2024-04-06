@@ -24,13 +24,20 @@ $app->router->post('/login', [AuthController::class, 'login']);
 // logout
 $app->router->get('/logout', [AuthController::class, 'logout']);
 
-// admin
+// admin dashboard
 $app->router->get('/dashboard', [AdminController::class, 'dashboard']);
+
+// admin set crud
 $app->router->get('/dashboard/sets', [AdminController::class, 'createSet']);
 $app->router->post('/dashboard/sets', [AdminController::class, 'createSet']);
+
+// admin card crud
 $app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
 $app->router->post('/dashboard/cards', [AdminController::class, 'createCard']);
-$app->router->post('/dashboard', [AdminController::class, 'updateRoleUser']);
+
+// admin user management
+$app->router->get('/dashboard/users/{id}', [AdminController::class, 'updateUser']);
+$app->router->post('/dashboard/users/{id}', [AdminController::class, 'updateUser']);
 
 // cards
 $app->router->get('/cards/{id}', [CardController::class, 'show']);

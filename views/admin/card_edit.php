@@ -1,5 +1,5 @@
-<h1>Create a card</h1>
-<form action="" method="post" enctype="multipart/form-data">
+<h1>Edit this card</h1>
+<form action="" method="put" enctype="multipart/form-data">
 <div class="form-group">
     <label>Name</label>
     <input type="text" name="name" value="<?php echo $model->name ?>" class="form-control <?php echo $model->hasError('name') ? 'is-invalid' : '' ?>" placeholder="Enter name">

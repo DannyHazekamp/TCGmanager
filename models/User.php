@@ -34,7 +34,7 @@ class User extends DbModel
             'username' => [self::REQUIRED],
             'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class]],
             'password' => [self::REQUIRED],
-            'role_id' => [self::REQUIRED]
+            'role_id' => [self::REQUIRED, self::MISMATCH]
         ];
     }
 

@@ -9,6 +9,7 @@ abstract class Model
     public const MIN = 'min';
     public const MAX = 'max';
     public const UNIQUE = 'unique';
+    public const MISMATCH = 'mismatch';
 
 
     public function loadData($data)
@@ -31,7 +32,7 @@ abstract class Model
         foreach($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
             foreach($rules as $rule) {
-                $ruleName = $rule;
+                $ruleName = $rule; 
                 if(!is_string($ruleName)) {
                     $ruleName = $rule[0];
                 }
@@ -52,6 +53,12 @@ abstract class Model
                     $rec = $statement->fetchObject();
                     if ($rec) {
                         $this->addErrorRule($attribute, self::UNIQUE);
+                    }
+                }
+                if($ruleName === self::MISMATCH) {
+                    $validRoleIDs = [1, 2, 3]; // Definieer een array met geldige role_ids
+                    if (!in_array($value, $validRoleIDs)) {
+                        $this->addErrorRule($attribute, self::MISMATCH);
                     }
                 }
             }
@@ -78,7 +85,8 @@ abstract class Model
             self::VALID_EMAIL => 'This field must be a valid email',
             self::MIN => 'Min length of this field must be {min}',
             self::MAX => 'Max length of this field must be {max}',
-            self::UNIQUE => 'This email already exists'
+            self::UNIQUE => 'This email already exists',
+            self::MISMATCH => 'Not a valid value for this field'
         ];
     }
 
