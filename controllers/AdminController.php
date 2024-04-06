@@ -17,9 +17,10 @@ class AdminController extends Controller
     {
 
         $users = User::findAll();
-
+        $cards = Card::findAll();
         return $this->render('admin.dashboard', [
-            'users' => $users
+            'users' => $users,
+            'cards' => $cards
         ]);
     }
 
@@ -49,6 +50,7 @@ class AdminController extends Controller
     public function createCard(Request $request, Response $response)
     {
 
+        $sets = Set::findAll();
         $card = new Card();
 
         $card->name = '';
@@ -65,12 +67,14 @@ class AdminController extends Controller
                 $response->redirect('/dashboard');
             }
             return $this->render('admin.card_create', [
-                'model' => $card
+                'model' => $card,
+                'sets' => $sets
             ]);
         }
 
         return $this->render('admin.card_create', [
-            'model' => $card
+            'model' => $card,
+            'sets' => $sets
         ]);
 
     }

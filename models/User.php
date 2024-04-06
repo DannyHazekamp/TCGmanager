@@ -17,10 +17,9 @@ class User extends DbModel
         return 'users';
     }
 
-
-    public static function roleId(): string 
+    public static function primaryKey(): string
     {
-        return 'role_id';
+        return 'user_id';
     }
 
     public function save()

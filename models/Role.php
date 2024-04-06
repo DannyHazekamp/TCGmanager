@@ -14,9 +14,9 @@ class Role extends DbModel
         return 'roles';
     }
 
-    public static function userId(): string 
+    public static function primaryKey(): string
     {
-        return '';
+        return 'role_id';
     }
     
     public function rules(): array

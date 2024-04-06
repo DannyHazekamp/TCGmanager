@@ -13,6 +13,11 @@ class Set extends DbModel
         return 'sets';
     }
 
+    public static function primaryKey(): string
+    {
+        return 'set_id';
+    }
+
 
     public function save()
     {

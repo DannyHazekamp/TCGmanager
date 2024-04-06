@@ -18,6 +18,11 @@ class Card extends DbModel
         return 'cards';
     }
 
+    public static function primaryKey(): string
+    {
+        return 'card_id';
+    }
+
 
     public function save()
     {
@@ -39,6 +44,11 @@ class Card extends DbModel
     public function attributes(): array
     {
         return ['name', 'attack', 'defense', 'rarity', 'price','set_id'];
+    }
+
+    public function set()
+    {
+        return $this->belongsTo(Set::class,'set_id');
     }
 
 

@@ -11,6 +11,11 @@ class LoginModel extends Model
     public string $password;
 
 
+    public static function primaryKey(): string
+    {
+        return 'user_id';
+    }
+
     public function rules(): array
     {
         return [

@@ -33,7 +33,7 @@ class App
 
         $userValue = $this->session->get('user');
         if($userValue) {
-            $userId = $this->userClass::userId();
+            $userId = $this->userClass::primaryKey();
             $this->user = $this->userClass::findOne([$userId => $userValue]);
         } else {
             $this->user = null;
@@ -48,7 +48,7 @@ class App
     public function login(DbModel $user)
     {
         $this->user = $user;
-        $userId = $user->userId();
+        $userId = $user->primaryKey();
         $userValue = $user->{$userId};
         $this->session->set('user', $userValue);
         return true;

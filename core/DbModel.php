@@ -8,16 +8,6 @@ abstract class DbModel extends Model
 
     abstract public function attributes(): array;
 
-    public static function userId(): string
-    {
-        return 'user_id';
-    }
-
-    public static function roleId(): string
-    {
-        return 'role_id';
-    }
-
     public function save()
     {
         $tableName = $this->tableName();
@@ -61,7 +51,10 @@ abstract class DbModel extends Model
 
         $foreignKeyValue = $this->{$foreignKey};
 
-        return $class::findOne([$class::roleId() => $foreignKeyValue]);
+        $relatedModel = new $class();
+        $relatedPrimaryKey = $relatedModel::primaryKey();
+
+        return $class::findOne([$relatedPrimaryKey => $foreignKeyValue]);
     }
 
     public static function prepare($sql) 

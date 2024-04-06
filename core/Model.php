@@ -22,6 +22,8 @@ abstract class Model
 
     abstract public function rules(): array;
 
+    abstract public static function primaryKey(): string;
+
     public array $errors = [];
 
     public function validate() 
