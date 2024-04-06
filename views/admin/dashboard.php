@@ -15,16 +15,25 @@
         </tr>
       </thead>
       <tbody>
-        <?php 
-            foreach ($users as $user) {
-                echo "<tr>";
-                echo "<td>".$user->user_id."</td>";
-                echo "<td>".$user->username."</td>";
-                echo "<td>".$user->email."</td>";
-                echo "<td>".$user->role()->name."</td>";
-                echo "</tr>";
-            }
-        ?>
+      <?php foreach ($users as $user): ?>
+          <tr>
+            <td><?php echo $user->user_id; ?></td>
+            <td><?php echo $user->username; ?></td>
+            <td><?php echo $user->email; ?></td>
+            <td><?php echo $user->role()->name; ?></td>
+            <td>
+              <form action="" method="post">
+                <input type="hidden" name="user_id" value="<?php echo $user->user_id; ?>">
+                <select name="role_id" class="form-control">
+                  <option value="1" <?php echo ($user->role_id == 1) ? 'selected' : ''; ?>>Admin</option>
+                  <option value="2" <?php echo ($user->role_id == 2) ? 'selected' : ''; ?>>User</option>
+                  <option value="3" <?php echo ($user->role_id == 3) ? 'selected' : ''; ?>>Premium user</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Update Rol</button>
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
       </tbody>
     </table>
   </div>

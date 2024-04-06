@@ -23,6 +23,25 @@ abstract class DbModel extends Model
 
     }
 
+    public function update()
+    {
+        $tableName = $this->tableName();
+        $attributes = $this->attributes();
+    
+        $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
+        $sql = implode(', ', $params);
+        $statement = self::prepare("UPDATE $tableName SET $sql WHERE {$this->primaryKey()} = :id");
+
+        foreach ($attributes as $attribute) {
+            $statement->bindValue(":$attribute", $this->{$attribute});
+        }
+        
+        $statement->bindValue(":id", $this->{$this->primaryKey()});
+        $statement->execute();
+
+        return true;
+    }
+
     public static function findOne($where) 
     {
         $tableName = static::tableName();

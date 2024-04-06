@@ -6,6 +6,7 @@ use app\core\App;
 use app\controllers\HomeController;
 use app\controllers\AuthController;
 use app\controllers\AdminController;
+use app\controllers\CardController;
 
 $app = new App(dirname(__DIR__));
 
@@ -29,5 +30,9 @@ $app->router->get('/dashboard/sets', [AdminController::class, 'createSet']);
 $app->router->post('/dashboard/sets', [AdminController::class, 'createSet']);
 $app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
 $app->router->post('/dashboard/cards', [AdminController::class, 'createCard']);
+$app->router->post('/dashboard', [AdminController::class, 'updateRoleUser']);
+
+// cards
+$app->router->get('/cards/{id}', [CardController::class, 'show']);
 
 $app->run();

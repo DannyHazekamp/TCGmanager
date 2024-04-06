@@ -1,5 +1,5 @@
 <h1>Create a card</h1>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
 <div class="form-group">
     <label>Name</label>
     <input type="text" name="name" value="<?php echo $model->name ?>" class="form-control <?php echo $model->hasError('name') ? 'is-invalid' : '' ?>" placeholder="Enter name">
@@ -30,11 +30,14 @@
   </div>
   <div class="form-group">
     <label>Price</label>
-    <input type="text" name="price" value="<?php echo $model->price ?>" class="form-control <?php echo $model->hasError('price') ? 'is-invalid' : '' ?>" placeholder="Enter the price">
+    <input type="number" name="price" value="<?php echo $model->price ?>" class="form-control <?php echo $model->hasError('price') ? 'is-invalid' : '' ?>" placeholder="Enter the price">
     <div class="invalid-feedback">
       <?php echo $model->getError('price') ?>
     </div>
   </div>
+  <div class="form-group">
+    <label>Price</label>
+    <input type="file" name="image" class="form-control">
   <div class="form-group">
     <select class="form-select" name="set_id" aria-label="Default select example">
       <?php 

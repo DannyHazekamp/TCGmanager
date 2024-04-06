@@ -18,7 +18,7 @@ class Router
 
 
     public function get($path, $callback)
-    {
+    {   
         $this->routes['get'][$path] = $callback;
     }
 
@@ -31,18 +31,40 @@ class Router
     {
         $path = $this->request->getPath();
         $method = $this->request->method();
-        $callback = $this->routes[$method][$path] ?? false;
-        if ($callback === false) {
-            $this->response->setStatus(404);
-            return $this->render("_404"); 
+        
+        foreach ($this->routes[$method] as $route => $callback) {
+            // Patroonmatcher voor dynamische segmenten in de URL
+            $pattern = preg_replace('/\/{(.*?)}/', '/(.*?)', $route);
+            $pattern = str_replace('/', '\/', $pattern);
+            $pattern = '/^' . $pattern . '$/';
+
+            if (preg_match($pattern, $path, $matches)) {
+                array_shift($matches); // Eerste match is het volledige pad, niet nodig
+                
+                // Voeg dynamische parameters toe aan de route
+                $routeParams = [];
+                preg_match_all('/{(.*?)}/', $route, $routeParamsMatches);
+                $routeParamsNames = $routeParamsMatches[1];
+                for ($i = 0; $i < count($routeParamsNames); $i++) {
+                    $routeParams[$routeParamsNames[$i]] = $matches[$i];
+                }
+                
+                $this->request->setRouteParams($routeParams);
+
+                // Roep de callback-functie aan met de request, response en dynamische parameters
+                if (is_string($callback)) {
+                    return $this->render($callback);
+                }
+                if (is_array($callback)) {
+                    $callback[0] = new $callback[0];
+                }
+                return call_user_func($callback, $this->request, $this->response);
+            }
         }
-        if(is_string($callback)) {
-            return $this->render($callback);
-        }
-        if (is_array($callback)) {
-            $callback[0] = new $callback[0];
-        }
-        return call_user_func($callback, $this->request, $this->response);
+
+        // Als er geen overeenkomende route is gevonden, retourneer 404
+        $this->response->setStatus(404);
+        return $this->render("_404"); 
     }
 
     public function render($view, $params = [])

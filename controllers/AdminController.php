@@ -63,6 +63,15 @@ class AdminController extends Controller
         if($request->is_method_post()) {
             $card->loadData($request->getBody());
 
+            $image = $request->getFile('image');
+            if($image && $image['error'] === UPLOAD_ERR_OK) {
+                $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
+                move_uploaded_file($image['tmp_name'], $imagePath);
+                $card->image = '/img/' . $image['name'];
+            } else {
+                $card->image = '/img/placeholder.png';
+            }
+
             if($card->validate() && $card->save()){
                 $response->redirect('/dashboard');
             }
@@ -77,5 +86,13 @@ class AdminController extends Controller
             'sets' => $sets
         ]);
 
+    }
+
+    public function updateUser(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $user_id = $params['id'];
+
+        $user = User::findOne(['user_id' => $user_id]);
     }
 }

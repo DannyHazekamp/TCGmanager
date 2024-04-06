@@ -4,15 +4,16 @@ namespace app\controllers;
 
 use app\core\App;
 use app\core\Controller;
+use app\models\Card;
 
 class HomeController extends Controller
 {
     public function home()
     {
-        $params = [
-            'name' => 'Danny'
-        ];
+        $cards = Card::findAll();
 
-        return $this->render('home', $params);
+        return $this->render('home', [
+            'cards' => $cards
+        ]);
     }
 }

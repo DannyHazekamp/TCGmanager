@@ -11,6 +11,7 @@ class Card extends DbModel
     public int $defense;
     public string $rarity;
     public float $price;
+    public string $image;
     public int $set_id;
 
     public static function tableName(): string
@@ -37,13 +38,14 @@ class Card extends DbModel
             'defense' => [self::REQUIRED],
             'rarity' => [self::REQUIRED],
             'price' => [self::REQUIRED],
+            'image' => [self::REQUIRED],
             'set_id' => [self::REQUIRED]
         ];
     }
 
     public function attributes(): array
     {
-        return ['name', 'attack', 'defense', 'rarity', 'price','set_id'];
+        return ['name', 'attack', 'defense', 'rarity', 'price', 'image', 'set_id'];
     }
 
     public function set()
