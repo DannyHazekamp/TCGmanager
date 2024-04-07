@@ -48,7 +48,8 @@ $app->router->get('/cards/{id}', [CardController::class, 'show']);
 $app->router->get('/decks', [DeckController::class, 'create']);
 $app->router->post('/decks', [DeckController::class, 'create']);
 $app->router->get('/decks/{id}', [DeckController::class,'addCard']);
-$app->router->post('/decks/{id}', [DeckController::class,'addCard']);
+$app->router->post('/decks/{id}/add', [DeckController::class,'addCard']);
+$app->router->post('/decks/{id}/remove', [DeckController::class, 'removeCard']);
 
 // profile
 $app->router->get('/profile', [ProfileController::class, 'show']);

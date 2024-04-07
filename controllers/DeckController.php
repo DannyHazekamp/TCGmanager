@@ -51,6 +51,7 @@ class DeckController extends Controller
         $deck_id = $params['id'];
 
         $deck = Deck::findOne(['deck_id' => $deck_id]);
+        $cardsInDeck = count($deck->cards());
 
         $cards = Card::findAll();
         $cardDeck = new CardDeck();
@@ -62,7 +63,7 @@ class DeckController extends Controller
             $cardDeck->loadData($request->getBody());
             $cardDupes = $deck->countCards($cardDeck->card_id);
 
-            if($cardDupes >= 2) {
+            if($cardDupes >= 2 || $cardsInDeck >= 30) {
                 $response->redirect("/decks/{$deck_id}");
                 return;
             } else {
@@ -84,5 +85,23 @@ class DeckController extends Controller
             'cards' => $cards,
             'deck' => $deck
         ]);
+    }
+
+    public function removeCard(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = (int)$params['id'];
+
+        if($request->is_method_post()) {
+            $card_id = $request->getBody()['card_id'];
+
+            $cardDeck = CardDeck::findOne(['deck_id' => $deck_id, 'card_id' => $card_id]);
+
+            if($cardDeck->delete()) {
+                $response->redirect("/decks/{$deck_id}");
+                return;
+            }
+        }
+
     }
 }

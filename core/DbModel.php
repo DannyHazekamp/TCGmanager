@@ -42,6 +42,19 @@ abstract class DbModel extends Model
         return true;
     }
 
+    public function delete()
+    {
+        $tableName = $this->tableName();
+        $primaryKey = $this->primaryKey();
+        $primaryKeyValue = $this->{$primaryKey};
+
+        $statement = self::prepare("DELETE FROM $tableName WHERE $primaryKey = :id");
+        $statement->bindValue(":id", $primaryKeyValue);
+        $statement->execute();
+
+        return true;
+    }
+
     public function addManyToMany()
     {
         $tableName = $this->tableName();
@@ -64,7 +77,7 @@ abstract class DbModel extends Model
     {
         $tableName = static::tableName();
         $attributes = array_keys($where);
-        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
         foreach ($where as $key => $item){
             $statement->bindValue(":$key", $item);
