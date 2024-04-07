@@ -27,16 +27,22 @@ abstract class DbModel extends Model
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
-    
-        $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
-        $sql = implode(', ', $params);
-        $statement = self::prepare("UPDATE $tableName SET $sql WHERE {$this->primaryKey()} = :id");
+        $primaryKey = $this->primaryKey();
 
-        foreach ($attributes as $attribute) {
+        $changedAttributes = array_filter($attributes, function ($attribute) {
+            return isset($this->{$attribute});
+        });
+
+        $params = array_map(fn($attr) => "$attr = :$attr", $changedAttributes);
+        $sql = implode(', ', $params);
+
+        $statement = self::prepare("UPDATE $tableName SET $sql WHERE $primaryKey = :id");
+
+        foreach ($changedAttributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
-        
-        $statement->bindValue(":id", $this->{$this->primaryKey()});
+
+        $statement->bindValue(":id", $this->{$primaryKey});
         $statement->execute();
 
         return true;

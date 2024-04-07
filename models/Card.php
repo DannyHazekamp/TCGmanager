@@ -12,7 +12,7 @@ class Card extends DbModel
     public string $rarity;
     public float $price;
     public string $image;
-    public int $set_id;
+    public ?int $set_id;
 
     public static function tableName(): string
     {

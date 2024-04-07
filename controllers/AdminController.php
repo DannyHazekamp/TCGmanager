@@ -40,6 +40,7 @@ class AdminController extends Controller
             $set->loadData($request->getBody());
             if($set->validate() && $set->save()) {
                 $response->redirect('/dashboard');
+                return;
             }
 
             return $this->render('admin.set_create', [
@@ -58,11 +59,12 @@ class AdminController extends Controller
         $set_id = $params['id'];
 
         $set = Set::findOne(['set_id' => $set_id]);
-        
+
         if($request->is_method_post()) {
             $set->loadData($request->getBody());
             if($set->validate() && $set->update()) {
                 $response->redirect('/dashboard');
+                return;
             }
 
             return $this->render('admin.set_edit', [
@@ -74,6 +76,28 @@ class AdminController extends Controller
             'set' => $set
         ]);
     }
+
+    public function deleteSet(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $set_id = $params['id'];
+        
+        $set = Set::findOne(['set_id' => $set_id]);
+      
+        if($request->is_method_post() && $set) {
+            $cards = Card::findAll(['set_id' => $set_id]);
+
+            foreach ($cards as $card) {
+                $card->set_id = null;
+                $card->update();
+            }
+
+            if($set->delete()) {
+                $response->redirect('/dashboard');
+            }
+        }
+    }   
+
 
 
     public function createCard(Request $request, Response $response)

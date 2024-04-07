@@ -1,4 +1,3 @@
-<!-- admin.dashboard.php -->
 
 <div class="row">
     <div class="col">
@@ -6,7 +5,6 @@
     </div>
 </div>
 
-<!-- Bootstrap 5 tabs -->
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
         <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Users</button>
@@ -22,7 +20,6 @@
     </li>
 </ul>
 
-<!-- Bootstrap 5 tab content -->
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
       <table class="table">
@@ -71,7 +68,7 @@
               <td><?php echo $card->defense ?></td>
               <td><?php echo $card->rarity ?></td>
               <td><?php echo $card->price ?></td>
-              <td><?php echo $card->set()->name; ?></td>
+              <td><?php echo $card->set() ? $card->set()->name : 'No set'; ?></td>
               <td><a href="/dashboard/cards/<?php echo $card->card_id; ?>" class="btn btn-primary">Edit</a></td>
             </tr>
           <?php endforeach; ?>
@@ -109,6 +106,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -116,7 +114,13 @@
             <tr>
               <td><?php echo $set->set_id ?></td>
               <td><?php echo $set->name ?></td>
-              <td><a href="/dashboard/sets/<?php echo $set->set_id; ?>" class="btn btn-primary">Edit</a></td>
+              <td><a href="/dashboard/sets/<?php echo $set->set_id ?>" class="btn btn-primary">Edit</a></td>
+              <td>
+                <form action="/dashboard/sets/<?php echo $set->set_id ?>/delete" method="post">
+                  <input type="hidden" name="set_id" value="<?php echo $set->set_id; ?>">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
