@@ -48,4 +48,9 @@ class User extends DbModel
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+    public function decks()
+    {
+        return Deck::findAll(['user_id' => $this->user_id]);
+    }
+
 }

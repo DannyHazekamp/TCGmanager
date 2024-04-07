@@ -8,6 +8,7 @@ use app\controllers\AuthController;
 use app\controllers\AdminController;
 use app\controllers\CardController;
 use app\controllers\DeckController;
+use app\controllers\ProfileController;
 
 $app = new App(dirname(__DIR__));
 
@@ -46,5 +47,10 @@ $app->router->get('/cards/{id}', [CardController::class, 'show']);
 // decks
 $app->router->get('/decks', [DeckController::class, 'create']);
 $app->router->post('/decks', [DeckController::class, 'create']);
+$app->router->get('/decks/{id}', [DeckController::class,'addCard']);
+$app->router->post('/decks/{id}', [DeckController::class,'addCard']);
+
+// profile
+$app->router->get('/profile', [ProfileController::class, 'show']);
 
 $app->run();

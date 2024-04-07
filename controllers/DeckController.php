@@ -8,6 +8,8 @@ use app\core\Request;
 use app\core\Response;
 use app\models\User;
 use app\models\Deck;
+use app\models\Card;
+use app\models\CardDeck;
 
 class DeckController extends Controller
 {
@@ -40,6 +42,47 @@ class DeckController extends Controller
 
         return $this->render('deck.create', [
             'model' => $deck
+        ]);
+    }
+
+    public function addCard(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+
+        $cards = Card::findAll();
+        $cardDeck = new CardDeck();
+
+        $cardDeck->card_id = 0;
+        $cardDeck->deck_id = $deck_id;
+
+        if($request->is_method_post()) {
+            $cardDeck->loadData($request->getBody());
+            $cardDupes = $deck->countCards($cardDeck->card_id);
+
+            if($cardDupes >= 2) {
+                $response->redirect("/decks/{$deck_id}");
+                return;
+            } else {
+                if($cardDeck->validate() && $cardDeck->save()) {
+                    $response->redirect("/decks/{$deck_id}");
+                    return;
+                }
+            }
+
+            return $this->render('deck.add_card', [
+                'model' => $cardDeck,
+                'cards' => $cards,
+                'deck' => $deck
+            ]);
+        }
+
+        return $this->render('deck.add_card', [
+            'model' => $cardDeck,
+            'cards' => $cards,
+            'deck' => $deck
         ]);
     }
 }

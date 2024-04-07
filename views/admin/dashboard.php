@@ -4,7 +4,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <table class="table">
       <thead>
         <tr>
@@ -29,7 +29,7 @@
       </tbody>
     </table>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-4">
   <table class="table">
       <thead>
         <tr>
@@ -56,6 +56,29 @@
                 echo "</tr>";
             }
         ?>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-4">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($decks as $deck): ?>
+          <tr>
+            <td><?php echo $deck->deck_id ?></td>
+            <td><?php echo $deck->name ?></td>
+            <td><?php echo $deck->description ?></td>
+            <td><?php echo $deck->user()->username ?></td>
+          </tr>
+        <?php endforeach; ?>
       </tbody>
     </table>
   </div>

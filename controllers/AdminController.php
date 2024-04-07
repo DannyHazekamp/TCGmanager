@@ -6,6 +6,7 @@ use app\core\Controller;
 use app\models\User;
 use app\models\Card;
 use app\models\Set;
+use app\models\Deck;
 use app\core\Request;
 use app\core\Response;
 use app\core\App;
@@ -18,9 +19,11 @@ class AdminController extends Controller
 
         $users = User::findAll();
         $cards = Card::findAll();
+        $decks = Deck::findAll();
         return $this->render('admin.dashboard', [
             'users' => $users,
-            'cards' => $cards
+            'cards' => $cards,
+            'decks' => $decks
         ]);
     }
 

@@ -38,6 +38,9 @@ use app\core\App;
             <li class="nav-item">
                 <a class="nav-link" href="/decks">decks</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">profile</a>
+            </li>
             </ul>
 
             <?php if (App::isNotAuthenticated()): ?>

@@ -42,6 +42,24 @@ abstract class DbModel extends Model
         return true;
     }
 
+    public function addManyToMany()
+    {
+        $tableName = $this->tableName();
+        $attributes = $this->attributes();
+        $columns = implode(', ', $attributes);
+        $params = ':' . implode(', :', $attributes);
+
+        $sql = "INSERT INTO $tableName ($columns) VALUES ($params)";
+        $statement = self::prepare($sql);
+
+        foreach ($attributes as $attribute) {
+            $statement->bindValue(":$attribute", $this->{$attribute});
+        }
+
+        $statement->execute();
+        return true;
+    }
+
     public static function findOne($where) 
     {
         $tableName = static::tableName();
@@ -74,6 +92,23 @@ abstract class DbModel extends Model
         $relatedPrimaryKey = $relatedModel::primaryKey();
 
         return $class::findOne([$relatedPrimaryKey => $foreignKeyValue]);
+    }
+
+    public function hasMany($class, $foreignKey)
+    {
+        $tableName = $class::tableName();
+
+        $primaryKeyValue = $this->{$this->primaryKey()};
+
+        $relatedModel = new $class();
+        $relatedPrimaryKey = $relatedModel::primaryKey();
+
+        $sql = "SELECT * FROM $tableName WHERE $foreignKey = :primaryKeyValue";
+        $statement = self::prepare($sql);
+        $statement->bindValue(":primaryKeyValue", $primaryKeyValue);
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
     public static function prepare($sql) 

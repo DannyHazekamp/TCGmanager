@@ -40,4 +40,25 @@ class Deck extends DbModel
         return ['name', 'description', 'user_id'];
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function cards()
+    {
+        return $this->hasMany(CardDeck::class, 'deck_id');
+    }
+
+    public function countCards(int $card_id): int
+    {
+        $cardCount = 0;
+        foreach ($this->cards() as $cardDeck) {
+            if ($cardDeck->card_id === $card_id) {
+                $cardCount++;
+            }
+        }
+        return $cardCount;
+    }
+
 }

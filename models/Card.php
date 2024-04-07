@@ -53,7 +53,9 @@ class Card extends DbModel
         return $this->belongsTo(Set::class,'set_id');
     }
 
-
-
+    public function decks()
+    {
+        return $this->hasMany(CardDeck::class, 'card_id');
+    }
 
 }
