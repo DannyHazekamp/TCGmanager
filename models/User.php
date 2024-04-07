@@ -50,7 +50,7 @@ class User extends DbModel
 
     public function decks()
     {
-        return Deck::findAll(['user_id' => $this->user_id]);
+        return $this->hasMany(Deck::class, 'user_id');
     }
 
 }

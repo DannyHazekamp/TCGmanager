@@ -6,7 +6,7 @@
                 <h5 class="card-title"> <strong>Username:</strong> <?php echo $user->username; ?></h5>
                 <p class="card-text"> <strong>E-mail:</strong> <?php echo $user->email; ?></p>
                 <p class="card-text"> <strong>Role:</strong> <?php echo $user->role()->name; ?></p>
-                <a href="/profile/edit" class="btn btn-primary">Edit</a>
+                <a href="/dashboard/profile/edit/<?php echo $user->user_id; ?>" class="btn btn-primary">Edit</a>
             </div>
         </div>
     </div>

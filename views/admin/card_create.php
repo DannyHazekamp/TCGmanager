@@ -36,14 +36,16 @@
     </div>
   </div>
   <div class="form-group">
-    <label>Price</label>
+    <label>Image</label>
     <input type="file" name="image" class="form-control">
+  </div>
   <div class="form-group">
+    <label>Set</label>
     <select class="form-select" name="set_id" aria-label="Default select example">
       <?php foreach ($sets as $set): ?>
           <option value="<?php echo $set->set_id; ?>"><?php echo $set->name; ?></option>
       <?php endforeach; ?>
     </select>
-    </div>
+  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
