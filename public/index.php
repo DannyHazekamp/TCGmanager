@@ -7,6 +7,7 @@ use app\controllers\HomeController;
 use app\controllers\AuthController;
 use app\controllers\AdminController;
 use app\controllers\CardController;
+use app\controllers\DeckController;
 
 $app = new App(dirname(__DIR__));
 
@@ -41,5 +42,9 @@ $app->router->post('/dashboard/users/{id}', [AdminController::class, 'updateUser
 
 // cards
 $app->router->get('/cards/{id}', [CardController::class, 'show']);
+
+// decks
+$app->router->get('/decks', [DeckController::class, 'create']);
+$app->router->post('/decks', [DeckController::class, 'create']);
 
 $app->run();
