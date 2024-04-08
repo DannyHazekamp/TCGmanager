@@ -37,13 +37,20 @@ $app->router->post('/dashboard/sets/{id}/delete', [AdminController::class, 'dele
 $app->router->post('/dashboard/sets/{id}', [AdminController::class, 'updateSet']);
 
 // admin deck management
-// still implement create deck maybe
+$app->router->get('/dashboard/decks', [AdminController::class, 'createDeck']);
+$app->router->post('/dashboard/decks', [AdminController::class, 'createDeck']);
+$app->router->get('/dashboard/decks/profile/{id}', [AdminController::class, 'createDeckProfile']);
+$app->router->post('/dashboard/decks/profile/{id}', [AdminController::class, 'createDeckProfile']);
 $app->router->get('/dashboard/decks/edit/{id}', [AdminController::class, 'editDeck']);
 $app->router->post('/dashboard/decks/edit/{id}', [AdminController::class, 'editDeck']);
 $app->router->get('/dashboard/decks/{id}', [AdminController::class,'showDeck']);
 $app->router->post('/dashboard/decks/{id}/add', [AdminController::class,'showDeck']);
 $app->router->post('/dashboard/decks/{id}/remove', [AdminController::class, 'removeCardDeck']);
 $app->router->post('/dashboard/decks/{id}/delete', [AdminController::class, 'deleteDeck']);
+$app->router->post('/dashboard/decks/delete/profile/{id}', [AdminController::class, 'deleteDeckProfile']);
+
+
+
 
 // admin card management
 $app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
@@ -63,9 +70,12 @@ $app->router->get('/cards/{id}', [CardController::class, 'show']);
 // decks
 $app->router->get('/decks', [DeckController::class, 'create']);
 $app->router->post('/decks', [DeckController::class, 'create']);
-$app->router->get('/decks/{id}', [DeckController::class,'addCard']);
-$app->router->post('/decks/{id}/add', [DeckController::class,'addCard']);
-$app->router->post('/decks/{id}/remove', [DeckController::class, 'removeCard']);
+$app->router->get('/decks/edit/{id}', [DeckController::class, 'editDeck']);
+$app->router->post('/decks/edit/{id}', [DeckController::class, 'editDeck']);
+$app->router->get('/decks/{id}', [DeckController::class,'showDeck']);
+$app->router->post('/decks/{id}/add', [DeckController::class,'showDeck']);
+$app->router->post('/decks/{id}/remove', [DeckController::class, 'removeCardDeck']);
+$app->router->post('/decks/{id}/delete', [DeckController::class, 'deleteDeck']);
 
 // profile
 $app->router->get('/profile', [ProfileController::class, 'show']);

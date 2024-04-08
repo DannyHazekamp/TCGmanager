@@ -12,12 +12,14 @@
     </div>
     <div class="col-md-6 text-center">
     <h1>My decks</h1>
+    <a href="/decks" class="btn btn-primary">Create</a>
     <table class="table">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Description</th>
+          <th scope="col"></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -28,6 +30,11 @@
             <td><?php echo $deck->name ?></td>
             <td><?php echo $deck->description ?></td>
             <td><a href="/decks/<?php echo $deck->deck_id; ?>" class="btn btn-primary">Edit</a></td>
+            <td>
+              <form action="/decks/<?php echo $deck->deck_id ?>/delete" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </td>
           </tr>
         <?php endforeach; ?>
       </tbody>

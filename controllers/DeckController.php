@@ -31,7 +31,7 @@ class DeckController extends Controller
         if($request->is_method_post()) {
             $deck->loadData($request->getBody());
             if($deck->validate() && $deck->save()) {
-                $response->redirect('/dashboard');
+                $response->redirect('/profile');
                 return;
             }
 
@@ -45,7 +45,7 @@ class DeckController extends Controller
         ]);
     }
 
-    public function addCard(Request $request, Response $response)
+    public function showDeck(Request $request, Response $response)
     {
         $params = $request->getRouteParams();
         $deck_id = $params['id'];
@@ -73,21 +73,21 @@ class DeckController extends Controller
                 }
             }
 
-            return $this->render('deck.add_card', [
+            return $this->render('deck.show', [
                 'model' => $cardDeck,
                 'cards' => $cards,
                 'deck' => $deck
             ]);
         }
 
-        return $this->render('deck.add_card', [
+        return $this->render('deck.show', [
             'model' => $cardDeck,
             'cards' => $cards,
             'deck' => $deck
         ]);
     }
 
-    public function removeCard(Request $request, Response $response)
+    public function removeCardDeck(Request $request, Response $response)
     {
         $params = $request->getRouteParams();
         $deck_id = (int)$params['id'];
@@ -103,5 +103,48 @@ class DeckController extends Controller
             }
         }
 
+    }
+
+    public function editDeck(Request $request, Response $response)
+    {
+        if (App::isNotAuthenticated()) {
+            $response->redirect('/');
+            return;
+        }
+
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+
+        if($request->is_method_post()) {
+            $deck->loadData($request->getBody());
+            if($deck->validate() && $deck->update()) {
+                $response->redirect("/decks/{$deck_id}");
+                return;
+            }
+
+            return $this->render('deck.edit', [
+                'deck' => $deck
+            ]);
+        }
+
+        return $this->render('deck.edit', [
+            'deck' => $deck
+        ]);
+    }
+
+    public function deleteDeck(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+
+        if($request->is_method_post() && $deck) {
+            if($deck->deleteRelated()) {
+                $response->redirect('/profile');
+            }
+        }
     }
 }

@@ -180,6 +180,71 @@ class AdminController extends Controller
     }
 
 
+    public function createDeck(Request $request, Response $response)
+    {
+        if (App::isNotAuthenticated()) {
+            $response->redirect('/');
+            return;
+        }
+
+        $users = User::findAll();
+        $deck = new Deck();
+
+        $deck->name = '';
+        $deck->description = '';
+        $deck->user_id = 0;
+
+        if($request->is_method_post()) {
+            $deck->loadData($request->getBody());
+            if($deck->validate() && $deck->save()) {
+                $response->redirect('/dashboard');
+                return;
+            }
+
+            return $this->render('admin.deck.create', [
+                'users' => $users,
+                'deck' => $deck
+            ]);
+        }
+
+        return $this->render('admin.deck.create', [
+            'users' => $users,
+            'deck' => $deck
+        ]);
+    }
+
+    public function createDeckProfile(Request $request, Response $response)
+    {
+        if (App::isNotAuthenticated()) {
+            $response->redirect('/');
+            return;
+        }
+
+        $params = $request->getRouteParams();
+        $user_id = $params['id'];
+
+        $deck = new Deck();
+
+        $deck->name = '';
+        $deck->description = '';
+        $deck->user_id = $user_id;
+
+        if($request->is_method_post()) {
+            $deck->loadData($request->getBody());
+            if($deck->validate() && $deck->save()) {
+                $response->redirect("/dashboard/profile/{$user_id}");
+                return;
+            }
+
+            return $this->render('admin.deck.createTwo', [
+                'deck' => $deck
+            ]);
+        }
+
+        return $this->render('admin.deck.createTwo', [
+            'deck' => $deck
+        ]);
+    }
 
     public function showDeck(Request $request, Response $response)
     {
@@ -280,6 +345,21 @@ class AdminController extends Controller
         if($request->is_method_post() && $deck) {
             if($deck->deleteRelated()) {
                 $response->redirect('/dashboard');
+            }
+        }
+    }
+
+    public function deleteDeckProfile(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+
+        if($request->is_method_post() && $deck) {
+            $user_id = (int) $deck->user_id;
+            if($deck->deleteRelated()) {
+                $response->redirect("/dashboard/profile/{$user_id}");
             }
         }
     }

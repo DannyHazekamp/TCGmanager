@@ -76,6 +76,7 @@
       </table>
     </div>
     <div class="tab-pane fade" id="decks" role="tabpanel" aria-labelledby="decks-tab">
+      <a href="/dashboard/decks" class="btn btn-primary">Create</a>
       <table class="table">
         <thead>
           <tr>

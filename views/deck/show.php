@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="card-text">  <?php echo $deck->description; ?></p>
-                <a href="" class="btn btn-primary">Edit</a>
+                <a href="/decks/edit/<?php echo $deck->deck_id; ?>" class="btn btn-primary">Edit</a>
             </div>
         </div>
     </div>
