@@ -36,10 +36,16 @@ $app->router->get('/dashboard/sets/{id}', [AdminController::class, 'updateSet'])
 $app->router->post('/dashboard/sets/{id}/delete', [AdminController::class, 'deleteSet']);
 $app->router->post('/dashboard/sets/{id}', [AdminController::class, 'updateSet']);
 
-// admin deck crud
+// admin deck management
+// still implement create deck maybe
+$app->router->get('/dashboard/decks/edit/{id}', [AdminController::class, 'editDeck']);
+$app->router->post('/dashboard/decks/edit/{id}', [AdminController::class, 'editDeck']);
+$app->router->get('/dashboard/decks/{id}', [AdminController::class,'showDeck']);
+$app->router->post('/dashboard/decks/{id}/add', [AdminController::class,'showDeck']);
+$app->router->post('/dashboard/decks/{id}/remove', [AdminController::class, 'removeCardDeck']);
 $app->router->post('/dashboard/decks/{id}/delete', [AdminController::class, 'deleteDeck']);
 
-// admin card crud
+// admin card management
 $app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
 $app->router->post('/dashboard/cards', [AdminController::class, 'createCard']);
 $app->router->get('/dashboard/cards/{id}', [AdminController::class, 'updateCard']);
@@ -49,7 +55,7 @@ $app->router->post('/dashboard/cards/{id}', [AdminController::class, 'updateCard
 // admin user management
 $app->router->get('/dashboard/profile/edit/{id}', [AdminController::class, 'updateUser']);
 $app->router->post('/dashboard/profile/edit/{id}', [AdminController::class, 'updateUser']);
-$app->router->get('/dashboard/profile/{id}', [AdminController::class, 'showProfile']);
+$app->router->get('/dashboard/profile/{id}', [AdminController::class, 'showUser']);
 
 // cards
 $app->router->get('/cards/{id}', [CardController::class, 'show']);

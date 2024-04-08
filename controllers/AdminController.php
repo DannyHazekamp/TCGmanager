@@ -7,6 +7,7 @@ use app\models\User;
 use app\models\Card;
 use app\models\Set;
 use app\models\Deck;
+use app\models\CardDeck;
 use app\core\Request;
 use app\core\Response;
 use app\core\App;
@@ -43,12 +44,12 @@ class AdminController extends Controller
                 return;
             }
 
-            return $this->render('admin.set_create', [
+            return $this->render('admin.set.set_create', [
                 'model' => $set
             ]);
         }
 
-        return $this->render('admin.set_create', [
+        return $this->render('admin.set.set_create', [
             'model' => $set
         ]);
     }
@@ -67,12 +68,12 @@ class AdminController extends Controller
                 return;
             }
 
-            return $this->render('admin.set_edit', [
+            return $this->render('admin.set.set_edit', [
                 'set' => $set
             ]);
         }
 
-        return $this->render('admin.set_edit', [
+        return $this->render('admin.set.set_edit', [
             'set' => $set
         ]);
     }
@@ -128,13 +129,13 @@ class AdminController extends Controller
             if($card->validate() && $card->save()){
                 $response->redirect('/dashboard');
             }
-            return $this->render('admin.card_create', [
+            return $this->render('admin.card.card_create', [
                 'model' => $card,
                 'sets' => $sets
             ]);
         }
 
-        return $this->render('admin.card_create', [
+        return $this->render('admin.card.card_create', [
             'model' => $card,
             'sets' => $sets
         ]);
@@ -165,17 +166,134 @@ class AdminController extends Controller
             if($card->validate() && $card->update()){
                 $response->redirect('/dashboard');
             }
-            return $this->render('admin.card_edit', [
+            return $this->render('admin.card.card_edit', [
                 'card' => $card,
                 'sets' => $sets
             ]);
         }
 
-        return $this->render('admin.card_edit', [
+        return $this->render('admin.card.card_edit', [
             'card' => $card,
             'sets' => $sets
         ]);
 
+    }
+
+
+
+    public function showDeck(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+        $cardsInDeck = count($deck->cards());
+
+        $cards = Card::findAll();
+        $cardDeck = new CardDeck();
+
+        $cardDeck->card_id = 0;
+        $cardDeck->deck_id = $deck_id;
+
+        if($request->is_method_post()) {
+            $cardDeck->loadData($request->getBody());
+            $cardDupes = $deck->countCards($cardDeck->card_id);
+
+            if($cardDupes >= 2 || $cardsInDeck >= 30) {
+                $response->redirect("/dashboard/decks/{$deck_id}");
+                return;
+            } else {
+                if($cardDeck->validate() && $cardDeck->save()) {
+                    $response->redirect("/dashboard/decks/{$deck_id}");
+                    return;
+                }
+            }
+
+            return $this->render('admin.deck.show', [
+                'model' => $cardDeck,
+                'cards' => $cards,
+                'deck' => $deck
+            ]);
+        }
+
+        return $this->render('admin.deck.show', [
+            'model' => $cardDeck,
+            'cards' => $cards,
+            'deck' => $deck
+        ]);
+    }
+
+    public function removeCardDeck(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = (int)$params['id'];
+
+        if($request->is_method_post()) {
+            $card_id = $request->getBody()['card_id'];
+
+            $cardDeck = CardDeck::findOne(['deck_id' => $deck_id, 'card_id' => $card_id]);
+
+            if($cardDeck->delete()) {
+                $response->redirect("/dashboard/decks/{$deck_id}");
+                return;
+            }
+        }
+
+    }
+
+    public function editDeck(Request $request, Response $response)
+    {
+        if (App::isNotAuthenticated()) {
+            $response->redirect('/');
+            return;
+        }
+
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+
+        if($request->is_method_post()) {
+            $deck->loadData($request->getBody());
+            if($deck->validate() && $deck->update()) {
+                $response->redirect("/dashboard/decks/{$deck_id}");
+                return;
+            }
+
+            return $this->render('admin.deck.edit', [
+                'deck' => $deck
+            ]);
+        }
+
+        return $this->render('admin.deck.edit', [
+            'deck' => $deck
+        ]);
+    }
+
+    public function deleteDeck(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+
+        if($request->is_method_post() && $deck) {
+            if($deck->deleteRelated()) {
+                $response->redirect('/dashboard');
+            }
+        }
+    }
+
+    public function showUser(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $user_id = $params['id'];
+
+        $user = User::findOne(['user_id' => $user_id]);
+
+        return $this->render('admin.user.show', [
+            'user' => $user
+        ]);
     }
 
     public function updateUser(Request $request, Response $response)
@@ -192,39 +310,12 @@ class AdminController extends Controller
                 $response->redirect("/dashboard/profile/{$user->user_id}");
             }
 
-            return $this->render('admin.user_edit', [
+            return $this->render('admin.user.edit', [
                 'user' => $user
             ]);
         }
 
-        return $this->render('admin.user_edit', [
-            'user' => $user
-        ]);
-    }
-
-
-    public function deleteDeck(Request $request, Response $response)
-    {
-        $params = $request->getRouteParams();
-        $deck_id = $params['id'];
-
-        $deck = Deck::findOne(['deck_id' => $deck_id]);
-
-        if($request->is_method_post() && $deck) {
-            if($deck->deleteRelated()) {
-                $response->redirect('/dashboard');
-            }
-        }
-    }
-
-    public function showProfile(Request $request, Response $response)
-    {
-        $params = $request->getRouteParams();
-        $user_id = $params['id'];
-
-        $user = User::findOne(['user_id' => $user_id]);
-
-        return $this->render('admin.profile_show', [
+        return $this->render('admin.user.edit', [
             'user' => $user
         ]);
     }
