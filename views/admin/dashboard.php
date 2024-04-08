@@ -84,6 +84,7 @@
             <th scope="col">Description</th>
             <th scope="col">User</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -94,6 +95,11 @@
               <td><?php echo $deck->description ?></td>
               <td><?php echo $deck->user()->username; ?></td>
               <td><a href="/decks/<?php echo $deck->deck_id; ?>" class="btn btn-primary">Edit</a></td>
+              <td>
+                <form action="/dashboard/decks/<?php echo $deck->deck_id ?>/delete" method="post">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>

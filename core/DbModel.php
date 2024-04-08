@@ -61,6 +61,17 @@ abstract class DbModel extends Model
         return true;
     }
 
+    public function deleteRelations($tableName)
+    {
+        $primaryKey = $this->primaryKey();
+        $primaryKeyValue = $this->{$primaryKey};
+        $sql = "DELETE FROM $tableName WHERE $primaryKey = :id";
+
+        $statement = self::prepare($sql);
+        $statement->bindValue(":id", $primaryKeyValue);
+        $statement->execute();
+    }
+
     public function addManyToMany()
     {
         $tableName = $this->tableName();

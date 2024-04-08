@@ -61,4 +61,14 @@ class Deck extends DbModel
         return $cardCount;
     }
 
+    public function deleteRelated()
+    {
+        $tableName = CardDeck::tableName();
+
+        $this->deleteRelations($tableName);
+
+        return parent::delete();
+
+    }
+
 }

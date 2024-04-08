@@ -202,6 +202,21 @@ class AdminController extends Controller
         ]);
     }
 
+
+    public function deleteDeck(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $deck_id = $params['id'];
+
+        $deck = Deck::findOne(['deck_id' => $deck_id]);
+
+        if($request->is_method_post() && $deck) {
+            if($deck->deleteRelated()) {
+                $response->redirect('/dashboard');
+            }
+        }
+    }
+
     public function showProfile(Request $request, Response $response)
     {
         $params = $request->getRouteParams();

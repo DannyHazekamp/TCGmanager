@@ -36,7 +36,8 @@ $app->router->get('/dashboard/sets/{id}', [AdminController::class, 'updateSet'])
 $app->router->post('/dashboard/sets/{id}/delete', [AdminController::class, 'deleteSet']);
 $app->router->post('/dashboard/sets/{id}', [AdminController::class, 'updateSet']);
 
-
+// admin deck crud
+$app->router->post('/dashboard/decks/{id}/delete', [AdminController::class, 'deleteDeck']);
 
 // admin card crud
 $app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
