@@ -9,7 +9,7 @@
             <p><strong>Defense:</strong> <?php echo $card->defense ?></p>
             <p><strong>Rarity:</strong> <?php echo $card->rarity ?></p>
             <p><strong>Price:</strong> <?php echo $card->price ?></p>
-            <p><strong>Set:</strong> <?php echo $card->set()->name ?></p>
+            <p><strong>Set:</strong> <?php echo $card->set() ? $card->set()->name : 'No set'; ?></p>
         </div>
     </div>
 </div>

@@ -190,6 +190,35 @@ class AdminController extends Controller
 
     }
 
+    public function deleteCard(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $card_id = $params['id'];
+
+        $card = Card::findOne(['card_id' => $card_id]);
+
+
+        foreach ($card->decks() as $cardDeck) {
+            $cardDeck->delete();
+        }
+
+        $sameImage = Card::findAll(['image' => $card->image]);
+  
+        if ($card->image !== '/img/placeholder.png') {
+            if(count($sameImage) === 1) {
+                $imagePath = App::$ROOT_DIRECTORY . '/public' . $card->image;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+        }
+
+        if ($card->delete()) {
+            $response->redirect('/dashboard');
+            return;
+        }
+    }
+
 
     public function createDeck(Request $request, Response $response)
     {

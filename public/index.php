@@ -55,6 +55,7 @@ $app->router->post('/dashboard/decks/delete/profile/{id}', [AdminController::cla
 $app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
 $app->router->post('/dashboard/cards', [AdminController::class, 'createCard']);
 $app->router->get('/dashboard/cards/{id}', [AdminController::class, 'updateCard']);
+$app->router->post('/dashboard/cards/{id}/delete', [AdminController::class, 'deleteCard']);
 $app->router->post('/dashboard/cards/{id}', [AdminController::class, 'updateCard']);
 
 
@@ -66,7 +67,7 @@ $app->router->post('/dashboard/profile/edit/{id}', [AdminController::class, 'upd
 $app->router->get('/dashboard/profile/{id}', [AdminController::class, 'showUser']);
 $app->router->post('/dashboard/profile/{id}/delete', [AdminController::class, 'deleteUser']);
 
-// cards
+// cards show
 $app->router->get('/cards/{id}', [CardController::class, 'show']);
 
 // decks

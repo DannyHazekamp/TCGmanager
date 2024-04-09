@@ -67,6 +67,7 @@
             <th scope="col">Price</th>
             <th scope="col">Set</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -80,6 +81,11 @@
               <td><?php echo $card->price ?></td>
               <td><?php echo $card->set() ? $card->set()->name : 'No set'; ?></td>
               <td><a href="/dashboard/cards/<?php echo $card->card_id; ?>" class="btn btn-primary">Edit</a></td>
+              <td>
+                <form action="/dashboard/cards/<?php echo $card->card_id ?>/delete" method="post">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
