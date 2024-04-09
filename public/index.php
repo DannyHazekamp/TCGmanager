@@ -15,6 +15,7 @@ $app = new App(dirname(__DIR__));
 
 // home
 $app->router->get('/', [HomeController::class, 'home']);
+$app->router->get('/search', [HomeController::class,'search']);
 
 // register
 $app->router->get('/register', [AuthController::class, 'register']);

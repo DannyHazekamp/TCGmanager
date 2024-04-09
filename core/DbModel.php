@@ -120,6 +120,26 @@ abstract class DbModel extends Model
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", $value);
         }
+
+        $statement->execute(); 
+        return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
+
+    public static function searchAll($where = [])
+    {
+        $tableName = static::tableName();
+        $sql = "SELECT * FROM $tableName";
+
+        if(!empty($where)) {
+            $attributes = array_keys($where);
+            $conditions = implode(" AND ", array_map(fn($attr) => "$attr LIKE :$attr", $attributes));
+            $sql .= " WHERE $conditions";
+        }
+        $statement = self::prepare($sql);
+
+        foreach ($where as $key => $value) {
+            $statement->bindValue(":$key", "%$value%");
+        }
         
         $statement->execute(); 
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
