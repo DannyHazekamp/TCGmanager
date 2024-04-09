@@ -3,6 +3,7 @@
 require_once '../vendor/autoload.php';
 
 use app\core\App;
+use app\core\middlewares\RoleMiddleware;
 use app\controllers\HomeController;
 use app\controllers\AuthController;
 use app\controllers\AdminController;
@@ -48,8 +49,6 @@ $app->router->post('/dashboard/decks/{id}/add', [AdminController::class,'showDec
 $app->router->post('/dashboard/decks/{id}/remove', [AdminController::class, 'removeCardDeck']);
 $app->router->post('/dashboard/decks/{id}/delete', [AdminController::class, 'deleteDeck']);
 $app->router->post('/dashboard/decks/delete/profile/{id}', [AdminController::class, 'deleteDeckProfile']);
-
-
 
 
 // admin card management

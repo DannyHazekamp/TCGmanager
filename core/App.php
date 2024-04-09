@@ -42,7 +42,14 @@ class App
 
     public function run()
     {
-        echo $this->router->resolve();
+        try{
+            echo $this->router->resolve();
+        } catch (\Exception $e) {
+            $this->response->setStatus($e->getCode());
+            echo $this->router->render('_error', [
+                'exception' => $e
+            ]);
+        }
     }
 
     public function login(DbModel $user)
@@ -60,8 +67,18 @@ class App
         $this->session->delete('user');
     }
 
-    public static function isNotAuthenticated()
+    public static function isGuest()
     {
         return !self::$app->user;
+    }
+
+    public static function getUser(): ?User
+    {
+        return self::$app->user;
+    }
+
+    public static function userHasRole(array $roles): bool
+    {
+        return !self::isGuest() && self::getUser()->hasRole($roles);
     }
 }

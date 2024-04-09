@@ -47,16 +47,28 @@ abstract class Model
                     $className = $rule['class'];
                     $uniqueAttribute = $rule['attribute'] ?? $attribute;
                     $tableName = $className::tableName();
-                    $statement = App::$app->db->prepare("SELECT * FROM $tableName WHERE $uniqueAttribute = :attribute");
+                    $excludeUser = $rule['exclude'] ?? null;
+
+                    $excludeCondition = $excludeUser ? "AND user_id != :user_id" : "";
+                    $sql = "SELECT * FROM $tableName WHERE $uniqueAttribute = :attribute $excludeCondition";
+
+                    $statement = App::$app->db->prepare($sql);
                     $statement->bindValue(":attribute", $value);
+
+                    if($excludeUser) {
+                        $statement->bindValue(":user_id", $excludeUser);
+                    }
+
                     $statement->execute();
                     $rec = $statement->fetchObject();
+                    
                     if ($rec) {
                         $this->addErrorRule($attribute, self::UNIQUE);
                     }
+
                 }
                 if($ruleName === self::MISMATCH) {
-                    $validRoleIDs = [1, 2, 3]; // Definieer een array met geldige role_ids
+                    $validRoleIDs = [1, 2, 3];
                     if (!in_array($value, $validRoleIDs)) {
                         $this->addErrorRule($attribute, self::MISMATCH);
                     }

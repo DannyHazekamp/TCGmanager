@@ -6,14 +6,20 @@ use app\core\App;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
+use app\core\middlewares\RoleMiddleware;
 use app\models\User;
 use app\models\Deck;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
+    }
+
     public function show(Request $request, Response $response) 
     {
-        if (App::isNotAuthenticated()) {
+        if (App::isGuest()) {
             $response->redirect('/');
             return;
         }
@@ -27,7 +33,7 @@ class ProfileController extends Controller
 
     public function edit(Request $request, Response $response) 
     {
-        if (App::isNotAuthenticated()) {
+        if (App::isGuest()) {
             $response->redirect('/');
             return;
         }

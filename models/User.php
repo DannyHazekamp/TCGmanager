@@ -32,7 +32,7 @@ class User extends DbModel
     {
         return [
             'username' => [self::REQUIRED],
-            'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class]],
+            'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class, 'exclude' => $this->user_id]],
             'password' => [self::REQUIRED],
             'role_id' => [self::REQUIRED, self::MISMATCH]
         ];
@@ -41,6 +41,23 @@ class User extends DbModel
     public function attributes(): array
     {
         return ['username', 'email', 'password', 'role_id'];
+    }
+
+    public function hasRole($roleNames): bool
+    {
+        if (!is_array($roleNames)) {
+            $roleNames = [$roleNames];
+        }
+     
+        foreach ($roleNames as $roleName) {
+            $role = $this->role();
+
+            if ($role && $role->name === $roleName) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function role()

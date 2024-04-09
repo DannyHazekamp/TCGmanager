@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\core\exceptions\ForbiddenException;
+use app\core\exceptions\NotFoundException;
 
 class Router 
 {
@@ -54,14 +56,24 @@ class Router
                     return $this->render($callback);
                 }
                 if (is_array($callback)) {
-                    $callback[0] = new $callback[0];
+                    $controller = new $callback[0];
+                    App::$app->controller = $controller;
+                    $controller->action = $callback[1];
+                    $callback[0] = $controller;
+
+                    foreach ($controller->getMiddlewares() as $middleware) {
+                        $middleware->execute();
+                    }
+
+                    if (isset($controller->role) && !App::userHasRole([$controller->role])) {
+                        throw new ForbiddenException();
+                    }
                 }
                 return call_user_func($callback, $this->request, $this->response);
             }
         }
 
-        $this->response->setStatus(404);
-        return $this->render("_404"); 
+        throw new NotFoundException(); 
     }
 
     public function render($view, $params = [])

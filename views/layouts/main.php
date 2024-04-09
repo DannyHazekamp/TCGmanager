@@ -22,45 +22,35 @@ use app\core\App;
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard/sets">sets</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard/cards">cards</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/decks">decks</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/profile">profile</a>
-            </li>
-            </ul>
-
-            <?php if (App::isNotAuthenticated()): ?>
+            <?php if (App::isGuest()): ?>
             <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
-            </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/register">Register</a>
+              </li>
             </ul>
 
             <?php else: ?>
-            <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?>
-                  (Logout)
-                </a>
-            </li>
-            </ul>
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <?php if (App::userHasRole(['admin'])): ?>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/dashboard">dashboard</a>
+                  </li>
+                <?php endif; ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?>
+                      (Logout)
+                    </a>
+                </li>
+              </ul>
             <?php endif; ?>
 
         </div>

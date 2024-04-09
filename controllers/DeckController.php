@@ -6,6 +6,7 @@ use app\core\App;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
+use app\core\middlewares\RoleMiddleware;
 use app\models\User;
 use app\models\Deck;
 use app\models\Card;
@@ -13,10 +14,14 @@ use app\models\CardDeck;
 
 class DeckController extends Controller
 {
+    public function __construct()
+    {
+        $this->registerMiddleware(new RoleMiddleware(['premium_user', 'admin']));
+    }
 
     public function create(Request $request, Response $response)
     {
-        if (App::isNotAuthenticated()) {
+        if (App::isGuest()) {
             $response->redirect('/');
             return;
         }
@@ -107,7 +112,7 @@ class DeckController extends Controller
 
     public function editDeck(Request $request, Response $response)
     {
-        if (App::isNotAuthenticated()) {
+        if (App::isGuest()) {
             $response->redirect('/');
             return;
         }

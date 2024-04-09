@@ -11,9 +11,17 @@ use app\models\CardDeck;
 use app\core\Request;
 use app\core\Response;
 use app\core\App;
+use app\core\middlewares\RoleMiddleware;
+
+
 
 class AdminController extends Controller 
 {
+
+    public function __construct()
+    {
+        $this->registerMiddleware(new RoleMiddleware(['admin']));
+    }
 
     public function dashboard() 
     {
@@ -182,7 +190,7 @@ class AdminController extends Controller
 
     public function createDeck(Request $request, Response $response)
     {
-        if (App::isNotAuthenticated()) {
+        if (App::isGuest()) {
             $response->redirect('/');
             return;
         }
@@ -215,7 +223,7 @@ class AdminController extends Controller
 
     public function createDeckProfile(Request $request, Response $response)
     {
-        if (App::isNotAuthenticated()) {
+        if (App::isGuest()) {
             $response->redirect('/');
             return;
         }
@@ -308,7 +316,7 @@ class AdminController extends Controller
 
     public function editDeck(Request $request, Response $response)
     {
-        if (App::isNotAuthenticated()) {
+        if (App::isGuest()) {
             $response->redirect('/');
             return;
         }
@@ -382,7 +390,7 @@ class AdminController extends Controller
         $user_id = $params['id'];
 
         $user = User::findOne(['user_id' => $user_id]);
-        
+
         if($request->is_method_post()) {
             $user->loadData($request->getBody());
 
