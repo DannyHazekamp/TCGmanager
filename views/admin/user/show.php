@@ -7,6 +7,9 @@
                 <p class="card-text"> <strong>E-mail:</strong> <?php echo $user->email; ?></p>
                 <p class="card-text"> <strong>Role:</strong> <?php echo $user->role()->name; ?></p>
                 <a href="/dashboard/profile/edit/<?php echo $user->user_id; ?>" class="btn btn-primary">Edit</a>
+                <form action="/dashboard/profile/<?php echo $user->user_id ?>/delete" method="post">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     </div>

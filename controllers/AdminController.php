@@ -55,12 +55,12 @@ class AdminController extends Controller
                 return;
             }
 
-            return $this->render('admin.set.set_create', [
+            return $this->render('admin.set.create', [
                 'model' => $set
             ]);
         }
 
-        return $this->render('admin.set.set_create', [
+        return $this->render('admin.set.create', [
             'model' => $set
         ]);
     }
@@ -79,12 +79,12 @@ class AdminController extends Controller
                 return;
             }
 
-            return $this->render('admin.set.set_edit', [
+            return $this->render('admin.set.edit', [
                 'set' => $set
             ]);
         }
 
-        return $this->render('admin.set.set_edit', [
+        return $this->render('admin.set.edit', [
             'set' => $set
         ]);
     }
@@ -140,13 +140,13 @@ class AdminController extends Controller
             if($card->validate() && $card->save()){
                 $response->redirect('/dashboard');
             }
-            return $this->render('admin.card.card_create', [
+            return $this->render('admin.card.create', [
                 'model' => $card,
                 'sets' => $sets
             ]);
         }
 
-        return $this->render('admin.card.card_create', [
+        return $this->render('admin.card.create', [
             'model' => $card,
             'sets' => $sets
         ]);
@@ -177,13 +177,13 @@ class AdminController extends Controller
             if($card->validate() && $card->update()){
                 $response->redirect('/dashboard');
             }
-            return $this->render('admin.card.card_edit', [
+            return $this->render('admin.card.edit', [
                 'card' => $card,
                 'sets' => $sets
             ]);
         }
 
-        return $this->render('admin.card.card_edit', [
+        return $this->render('admin.card.edit', [
             'card' => $card,
             'sets' => $sets
         ]);

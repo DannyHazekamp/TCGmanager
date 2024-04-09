@@ -50,7 +50,6 @@ $app->router->post('/dashboard/decks/{id}/remove', [AdminController::class, 'rem
 $app->router->post('/dashboard/decks/{id}/delete', [AdminController::class, 'deleteDeck']);
 $app->router->post('/dashboard/decks/delete/profile/{id}', [AdminController::class, 'deleteDeckProfile']);
 
-
 // admin card management
 $app->router->get('/dashboard/cards', [AdminController::class, 'createCard']);
 $app->router->post('/dashboard/cards', [AdminController::class, 'createCard']);
