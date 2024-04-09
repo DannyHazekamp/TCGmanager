@@ -1,5 +1,5 @@
 {
-    "name": "danny/mv-cframework",
+    "name": "danny/tcg-manager",
     "autoload": {
         "psr-4": {
             "app\\": "./"

@@ -1,16 +1,14 @@
-# PHP tcg manager
+# PHP TCG manager
 A application with back-end framework created for a school project of the subject "Webtechnologie II"
 
 ------
 ## Installation
 
 1. Download or clone the project using git
-2. Create database schema
-3. Create `.env` file using `.env.example`
-4. Run `composer install`
-5. Go to the `public` folder
-6. Start the php server by using the command `php -S localhost:8000` 
-7. Open the server in your browser
+2. Create the `.env` file using `.env.example`
+3. Run `composer install`
+4. Go to the `public` folder and run `php -S localhost:8000` or run `php -S localhost:8000 -t public` in the root folder 
+5. Open the server in your browser
 
 ------
 ## User accounts
