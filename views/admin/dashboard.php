@@ -31,17 +31,25 @@
             <th scope="col">E-mail</th>
             <th scope="col">Role</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($users as $user): ?>
-            <tr>
-              <td><?php echo $user->user_id ?></td>
-              <td><?php echo $user->username ?></td>
-              <td><?php echo $user->email ?></td>
-              <td><?php echo $user->role()->name; ?></td>
-              <td><a href="/dashboard/profile/<?php echo $user->user_id; ?>" class="btn btn-primary">Profile</a></td>
-            </tr>
+            <?php if ($user->user_id !== $currentUser->user_id): ?>
+              <tr>
+                <td><?php echo $user->user_id ?></td>
+                <td><?php echo $user->username ?></td>
+                <td><?php echo $user->email ?></td>
+                <td><?php echo $user->role()->name; ?></td>
+                <td><a href="/dashboard/profile/<?php echo $user->user_id; ?>" class="btn btn-primary">Profile</a></td>
+                <td>
+                  <form action="/dashboard/profile/<?php echo $user->user_id ?>/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <?php endif; ?>
           <?php endforeach; ?>
         </tbody>
       </table>

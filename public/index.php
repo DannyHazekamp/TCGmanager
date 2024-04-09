@@ -64,6 +64,7 @@ $app->router->post('/dashboard/profile', [AdminController::class, 'createUser'])
 $app->router->get('/dashboard/profile/edit/{id}', [AdminController::class, 'updateUser']);
 $app->router->post('/dashboard/profile/edit/{id}', [AdminController::class, 'updateUser']);
 $app->router->get('/dashboard/profile/{id}', [AdminController::class, 'showUser']);
+$app->router->post('/dashboard/profile/{id}/delete', [AdminController::class, 'deleteUser']);
 
 // cards
 $app->router->get('/cards/{id}', [CardController::class, 'show']);

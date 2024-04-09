@@ -27,12 +27,14 @@ class AdminController extends Controller
     public function dashboard() 
     {
 
+        $currentUser = App::$app->user;
         $users = User::findAll();
         $cards = Card::findAll();
         $decks = Deck::findAll();
         $sets = Set::findAll();
 
         return $this->render('admin.dashboard', [
+            'currentUser' => $currentUser,
             'users' => $users,
             'cards' => $cards,
             'decks' => $decks,
@@ -439,4 +441,30 @@ class AdminController extends Controller
             'roles' => $roles
         ]);
     }
+
+    public function deleteUser(Request $request, Response $response)
+    {
+        $params = $request->getRouteParams();
+        $user_id = $params['id'];
+        
+        $user = User::findOne(['user_id' => $user_id]);
+      
+        if($user && $user->user_id === App::$app->user->user_id) {
+            $response->redirect('/dashboard');
+            return;
+        }
+
+        if($request->is_method_post() && $user) {
+
+            foreach ($user->decks() as $deck) {
+            
+                $deck->deleteRelated();
+            }
+
+            if($user->delete()) {
+                $response->redirect('/dashboard');
+                return;
+            }
+        }
+    } 
 }

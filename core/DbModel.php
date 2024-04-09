@@ -70,6 +70,7 @@ abstract class DbModel extends Model
         $statement = self::prepare($sql);
         $statement->bindValue(":id", $primaryKeyValue);
         $statement->execute();
+        return true;
     }
 
     public function addManyToMany()
