@@ -14,5 +14,5 @@
       <?php echo $model->getError('password') ?>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Login</button>
 </form>

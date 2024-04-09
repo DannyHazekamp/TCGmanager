@@ -22,6 +22,7 @@
 
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+      <a href="/dashboard/profile" class="btn btn-primary">Create</a>
       <table class="table">
         <thead>
           <tr>
@@ -46,6 +47,7 @@
       </table>
     </div>
     <div class="tab-pane fade" id="cards" role="tabpanel" aria-labelledby="cards-tab">
+      <a href="/dashboard/cards" class="btn btn-primary">Create</a>
       <table class="table">
         <thead>
           <tr>
@@ -107,6 +109,7 @@
       </table>
     </div>
     <div class="tab-pane fade" id="sets" role="tabpanel" aria-labelledby="sets-tab">
+      <a href="/dashboard/sets" class="btn btn-primary">Create</a>
       <table class="table">
         <thead>
           <tr>

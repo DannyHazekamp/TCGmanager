@@ -23,6 +23,8 @@ class AuthController extends Controller
         $user->username = '';
         $user->email = '';
         $user->password = '';
+        $user->role_id = 2;
+        
         if($request->is_method_post()){
             $user->loadData($request->getBody());
             

@@ -59,6 +59,8 @@ $app->router->post('/dashboard/cards/{id}', [AdminController::class, 'updateCard
 
 
 // admin user management
+$app->router->get('/dashboard/profile', [AdminController::class, 'createUser']);
+$app->router->post('/dashboard/profile', [AdminController::class, 'createUser']);
 $app->router->get('/dashboard/profile/edit/{id}', [AdminController::class, 'updateUser']);
 $app->router->post('/dashboard/profile/edit/{id}', [AdminController::class, 'updateUser']);
 $app->router->get('/dashboard/profile/{id}', [AdminController::class, 'showUser']);

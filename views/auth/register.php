@@ -21,6 +21,5 @@
       <?php echo $model->getError('password') ?>
     </div>
   </div>
-  <input type="hidden" name="role_id" value="2">
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Register</button>
 </form>

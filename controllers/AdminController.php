@@ -6,6 +6,7 @@ use app\core\Controller;
 use app\models\User;
 use app\models\Card;
 use app\models\Set;
+use app\models\Role;
 use app\models\Deck;
 use app\models\CardDeck;
 use app\core\Request;
@@ -372,6 +373,34 @@ class AdminController extends Controller
         }
     }
 
+    public function createUser(Request $request, Response $response)
+    {
+        $user = new User();
+        $user->username = '';
+        $user->email = '';
+        $user->password = '';
+        $user->role_id = 0;
+        
+        $roles = Role::findAll();
+
+        if($request->is_method_post()){
+            $user->loadData($request->getBody());
+            
+            if($user->validate() && $user->save()){
+                $response->redirect('/dashboard');
+                return;
+            }
+            return $this->render('admin.user.create', [
+                'user' => $user,
+                'roles' => $roles
+            ]);
+        }
+        return $this->render('admin.user.create', [
+            'user' => $user,
+            'roles' => $roles
+        ]);
+    }
+
     public function showUser(Request $request, Response $response)
     {
         $params = $request->getRouteParams();
@@ -390,6 +419,7 @@ class AdminController extends Controller
         $user_id = $params['id'];
 
         $user = User::findOne(['user_id' => $user_id]);
+        $roles = Role::findAll();
 
         if($request->is_method_post()) {
             $user->loadData($request->getBody());
@@ -399,12 +429,14 @@ class AdminController extends Controller
             }
 
             return $this->render('admin.user.edit', [
-                'user' => $user
+                'user' => $user,
+                'roles' => $roles
             ]);
         }
 
         return $this->render('admin.user.edit', [
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles
         ]);
     }
 }

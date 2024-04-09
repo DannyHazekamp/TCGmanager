@@ -1,4 +1,4 @@
-<h1>Edit user</h1>
+<h1>Create a user</h1>
 <form action="" method="post">
 <div class="form-group">
     <label>Username</label>
@@ -13,6 +13,13 @@
       <div class="invalid-feedback">
         <?php echo $user->getError('email') ?>
       </div>
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" name="password" value="<?php echo htmlspecialchars($user->password, ENT_QUOTES, 'UTF-8') ?>" class="form-control <?php echo $user->hasError('password') ? 'is-invalid' : '' ?>" placeholder="Password">
+    <div class="invalid-feedback">
+      <?php echo $user->getError('password') ?>
+    </div>
   </div>
   <div class="form-group">
     <label>Role</label>
