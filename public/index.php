@@ -78,6 +78,8 @@ $app->router->post('/decks/{id}/delete', [DeckController::class, 'deleteDeck']);
 
 // profile
 $app->router->get('/profile', [ProfileController::class, 'show']);
+$app->router->post('/profile/subscribe', [ProfileController::class, 'subscribe']);
+$app->router->post('/profile/unsubscribe', [ProfileController::class, 'unsubscribe']);
 $app->router->get('/profile/edit', [ProfileController::class, 'edit']);
 $app->router->post('/profile/edit', [ProfileController::class, 'edit']);
 

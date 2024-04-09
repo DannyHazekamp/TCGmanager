@@ -25,6 +25,7 @@ class ProfileController extends Controller
         }
 
         $user = App::$app->user;
+
         return $this->render('profile.show', [
             'user' => $user
         ]);
@@ -59,5 +60,59 @@ class ProfileController extends Controller
             'user' => $user
         ]);
         
+    }
+
+    public function subscribe(Request $request, Response $response)
+    {
+        $user = App::$app->user;
+
+        if($request->is_method_post()) {
+            if($user->role_id !== 2) {
+                $response->redirect('/profile', [
+                    'user' => $user
+                ]);
+                return;
+            }
+
+            $user->loadData($request->getBody());
+            $user->role_id = 3;
+
+            if ($user->validate() && $user->update()) {
+
+                $response->redirect('/profile', [
+                    'user' => $user
+                ]);
+                return;
+
+            }
+
+        }
+    }
+
+    public function unsubscribe(Request $request, Response $response)
+    {
+        $user = App::$app->user;
+
+        if($request->is_method_post()) {
+            if($user->role_id !== 3) {
+                $response->redirect('/profile', [
+                    'user' => $user
+                ]);
+                return;
+            }
+
+            $user->loadData($request->getBody());
+            $user->role_id = 2;
+
+            if ($user->validate() && $user->update()) {
+
+                $response->redirect('/profile', [
+                    'user' => $user
+                ]);
+                return;
+                
+            }
+
+        }
     }
 }

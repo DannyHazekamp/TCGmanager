@@ -12,6 +12,14 @@
     </div>
     <div class="col-md-6 text-center">
     <h1>My decks</h1>
+
+    <?php if ($user->hasRole('premium_user')): ?>
+      <form action="/profile/unsubscribe" method="post">
+        <button type="submit" class="btn btn-primary">Unsubscribe</button>
+      </form>
+    <?php endif; ?>
+
+    <?php if ($user->hasRole(['premium_user', 'admin'])): ?>
     <a href="/decks" class="btn btn-primary">Create</a>
     <table class="table">
       <thead>
@@ -39,5 +47,11 @@
         <?php endforeach; ?>
       </tbody>
     </table>
+    <?php else: ?>
+      <h4>Premium required for the deck function</h4>
+      <form action="/profile/subscribe" method="post">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    <?php endif; ?>
     </div>
 </div>
