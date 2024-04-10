@@ -2,14 +2,14 @@
 
 namespace app\controllers;
 
-use app\core\Controller;
-use app\core\Request;
-use app\core\middlewares\RoleMiddleware;
-use app\models\User;
-use app\core\Response;
-use app\core\Session;
 use app\core\App;
+use app\models\User;
+use app\core\Request;
+use app\core\Session;
+use app\core\Response;
+use app\core\Controller;
 use app\models\LoginModel;
+use app\core\middlewares\RoleMiddleware;
 
 class AuthController extends Controller
 {
@@ -25,11 +25,11 @@ class AuthController extends Controller
         $user->email = '';
         $user->password = '';
         $user->role_id = 2;
-        
-        if($request->is_method_post()){
+
+        if ($request->is_method_post()) {
             $user->loadData($request->getBody());
-            
-            if($user->validate() && $user->save()){
+
+            if ($user->validate() && $user->save()) {
                 $session->setMessage('success', 'Successfully registered');
                 $response->redirect('/login');
             }
@@ -42,16 +42,16 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request, Response $response, Session $session) 
+    public function login(Request $request, Response $response, Session $session)
     {
         $loginModel = new LoginModel();
 
         $loginModel->email = '';
         $loginModel->password = '';
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $loginModel->loadData($request->getBody());
-            if($loginModel->validate() && $loginModel->login()) {
+            if ($loginModel->validate() && $loginModel->login()) {
                 $session->setMessage('success', 'Logged in, welcome!');
                 $response->redirect('/');
             }

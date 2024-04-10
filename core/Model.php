@@ -7,7 +7,6 @@ abstract class Model
     public const REQUIRED = 'required';
     public const VALID_EMAIL = 'email';
     public const MIN = 'min';
-    public const MAX = 'max';
     public const UNIQUE = 'unique';
     public const MISMATCH = 'mismatch';
 
@@ -45,9 +44,6 @@ abstract class Model
                 }
                 if ($ruleName === self::MIN && strlen($value) < $rule['min']) {
                     $this->addErrorRule($attribute, self::MIN);
-                }
-                if ($ruleName === self::MAX && strlen($value) > $rule['max']) {
-                    $this->addErrorRule($attribute, self::MAX);
                 }
 
                 if($ruleName === self::UNIQUE) {    
@@ -103,7 +99,6 @@ abstract class Model
             self::REQUIRED => 'This field is required',
             self::VALID_EMAIL => 'This field must be a valid email',
             self::MIN => 'Minimum length of this field must be 6',
-            self::MAX => 'Max length of this field is 30',
             self::UNIQUE => 'This email already exists',
             self::MISMATCH => 'Not a valid value for this field'
         ];

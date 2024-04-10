@@ -3,13 +3,11 @@
 namespace app\controllers;
 
 use app\core\App;
-use app\core\Controller;
 use app\core\Request;
-use app\core\Response;
 use app\core\Session;
+use app\core\Response;
+use app\core\Controller;
 use app\core\middlewares\RoleMiddleware;
-use app\models\User;
-use app\models\Deck;
 
 class ProfileController extends Controller
 {
@@ -18,7 +16,7 @@ class ProfileController extends Controller
         $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
     }
 
-    public function show(Request $request, Response $response) 
+    public function show(Request $request, Response $response)
     {
         if (App::isGuest()) {
             $response->redirect('/');
@@ -33,7 +31,7 @@ class ProfileController extends Controller
     }
 
 
-    public function edit(Request $request, Response $response, Session $session) 
+    public function edit(Request $request, Response $response, Session $session)
     {
         if (App::isGuest()) {
             $response->redirect('/');
@@ -41,8 +39,8 @@ class ProfileController extends Controller
         }
 
         $user = App::$app->user;
-        
-        if($request->is_method_post()) {
+
+        if ($request->is_method_post()) {
             $user->loadData($request->getBody());
 
             if ($user->validate() && $user->update()) {
@@ -55,21 +53,19 @@ class ProfileController extends Controller
             return $this->render('profile.edit', [
                 'user' => $user
             ]);
-
         }
 
         return $this->render('profile.edit', [
             'user' => $user
         ]);
-        
     }
 
     public function subscribe(Request $request, Response $response, Session $session)
     {
         $user = App::$app->user;
 
-        if($request->is_method_post()) {
-            if($user->role_id !== 2) {
+        if ($request->is_method_post()) {
+            if ($user->role_id !== 2) {
                 $response->redirect('/profile', [
                     'user' => $user
                 ]);
@@ -85,9 +81,7 @@ class ProfileController extends Controller
                     'user' => $user
                 ]);
                 return;
-
             }
-
         }
     }
 
@@ -95,8 +89,8 @@ class ProfileController extends Controller
     {
         $user = App::$app->user;
 
-        if($request->is_method_post()) {
-            if($user->role_id !== 3) {
+        if ($request->is_method_post()) {
+            if ($user->role_id !== 3) {
                 $response->redirect('/profile', [
                     'user' => $user
                 ]);
@@ -112,9 +106,7 @@ class ProfileController extends Controller
                     'user' => $user
                 ]);
                 return;
-                
             }
-
         }
     }
 }

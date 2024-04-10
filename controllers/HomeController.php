@@ -2,12 +2,11 @@
 
 namespace app\controllers;
 
-use app\core\App;
-use app\core\Controller;
+use app\models\Card;
 use app\core\Request;
 use app\core\Response;
+use app\core\Controller;
 use app\core\middlewares\RoleMiddleware;
-use app\models\Card;
 
 class HomeController extends Controller
 {
@@ -18,7 +17,7 @@ class HomeController extends Controller
 
     public function home()
     {
-        
+
         $cards = Card::findAll();
 
         return $this->render('home', [
@@ -28,11 +27,11 @@ class HomeController extends Controller
 
     public function search(Request $request, Response $response)
     {
-        if($request->is_method_get()) {
+        if ($request->is_method_get()) {
             $query = $request->getBody()['search'] ?? '';
 
-            if(!empty($query)) {
-            $cards = Card::searchAll(['name' => $query]);
+            if (!empty($query)) {
+                $cards = Card::searchAll(['name' => $query]);
             } else {
                 $cards = Card::findAll();
             }

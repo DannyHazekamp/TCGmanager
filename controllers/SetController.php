@@ -1,29 +1,28 @@
-<?php
+<?php 
 
 namespace app\controllers;
 
-use app\models\Card;
 use app\core\Request;
-use app\core\Response;
 use app\core\Controller;
 use app\core\middlewares\RoleMiddleware;
+use app\models\Set;
 
-class CardController extends Controller
+class SetController extends Controller
 {
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
     }
 
-    public function show(Request $request, Response $response)
+    public function show(Request $request)
     {
         $params = $request->getRouteParams();
-        $card_id = $params['id'];
+        $set_id = $params['id'];
 
-        $card = Card::findOne(['card_id' => $card_id]);
+        $set = Set::findOne(['set_id' => $set_id]);
 
-        return $this->render('card.show', [
-            'card' => $card
+        return $this->render('set.show', [
+            'set' => $set
         ]);
     }
 }

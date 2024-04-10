@@ -2,22 +2,22 @@
 
 namespace app\controllers;
 
-use app\core\Controller;
-use app\models\User;
-use app\models\Card;
-use app\models\Set;
-use app\models\Role;
-use app\models\Deck;
-use app\models\CardDeck;
-use app\core\Request;
-use app\core\Response;
 use app\core\App;
+use app\models\Set;
+use app\models\Card;
+use app\models\Deck;
+use app\models\Role;
+use app\models\User;
+use app\core\Request;
 use app\core\Session;
+use app\core\Response;
+use app\core\Controller;
+use app\models\CardDeck;
 use app\core\middlewares\RoleMiddleware;
 
 
 
-class AdminController extends Controller 
+class AdminController extends Controller
 {
 
     public function __construct()
@@ -25,7 +25,7 @@ class AdminController extends Controller
         $this->registerMiddleware(new RoleMiddleware(['admin']));
     }
 
-    public function dashboard() 
+    public function dashboard()
     {
 
         $currentUser = App::$app->user;
@@ -49,9 +49,9 @@ class AdminController extends Controller
 
         $set->name = '';
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $set->loadData($request->getBody());
-            if($set->validate() && $set->save()) {
+            if ($set->validate() && $set->save()) {
                 $session->setMessage('success', 'Set created successfully');
                 $response->redirect('/dashboard');
                 return;
@@ -74,9 +74,9 @@ class AdminController extends Controller
 
         $set = Set::findOne(['set_id' => $set_id]);
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $set->loadData($request->getBody());
-            if($set->validate() && $set->update()) {
+            if ($set->validate() && $set->update()) {
                 $session->setMessage('success', 'Set updated successfully');
                 $response->redirect('/dashboard');
                 return;
@@ -96,10 +96,10 @@ class AdminController extends Controller
     {
         $params = $request->getRouteParams();
         $set_id = $params['id'];
-        
+
         $set = Set::findOne(['set_id' => $set_id]);
-      
-        if($request->is_method_post() && $set) {
+
+        if ($request->is_method_post() && $set) {
             $cards = Card::findAll(['set_id' => $set_id]);
 
             foreach ($cards as $card) {
@@ -107,13 +107,13 @@ class AdminController extends Controller
                 $card->update();
             }
 
-            if($set->delete()) {
+            if ($set->delete()) {
                 $session->setMessage('danger', 'Set deleted');
                 $response->redirect('/dashboard');
                 return;
             }
         }
-    }   
+    }
 
 
 
@@ -130,11 +130,11 @@ class AdminController extends Controller
         $card->price = 0.0;
         $card->set_id = 0;
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $card->loadData($request->getBody());
 
             $image = $request->getFile('image');
-            if($image && $image['error'] === UPLOAD_ERR_OK) {
+            if ($image && $image['error'] === UPLOAD_ERR_OK) {
                 $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
                 move_uploaded_file($image['tmp_name'], $imagePath);
                 $card->image = '/img/' . $image['name'];
@@ -142,7 +142,7 @@ class AdminController extends Controller
                 $card->image = '/img/placeholder.png';
             }
 
-            if($card->validate() && $card->save()){
+            if ($card->validate() && $card->save()) {
                 $session->setMessage('success', 'Card created successfully');
                 $response->redirect('/dashboard');
                 return;
@@ -157,23 +157,22 @@ class AdminController extends Controller
             'model' => $card,
             'sets' => $sets
         ]);
-
     }
 
     public function updateCard(Request $request, Response $response, Session $session)
     {
-        
+
         $params = $request->getRouteParams();
         $card_id = $params['id'];
 
         $sets = Set::findAll();
         $card = Card::findOne(['card_id' => $card_id]);
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $card->loadData($request->getBody());
 
             $image = $request->getFile('image');
-            if($image && $image['error'] === UPLOAD_ERR_OK) {
+            if ($image && $image['error'] === UPLOAD_ERR_OK) {
                 $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
                 move_uploaded_file($image['tmp_name'], $imagePath);
                 $card->image = '/img/' . $image['name'];
@@ -181,7 +180,7 @@ class AdminController extends Controller
                 $card->image = '/img/placeholder.png';
             }
 
-            if($card->validate() && $card->update()){
+            if ($card->validate() && $card->update()) {
                 $session->setMessage('success', 'Card updated successfully');
                 $response->redirect('/dashboard');
                 return;
@@ -196,7 +195,6 @@ class AdminController extends Controller
             'card' => $card,
             'sets' => $sets
         ]);
-
     }
 
     public function deleteCard(Request $request, Response $response, Session $session)
@@ -212,9 +210,9 @@ class AdminController extends Controller
         }
 
         $sameImage = Card::findAll(['image' => $card->image]);
-  
+
         if ($card->image !== '/img/placeholder.png') {
-            if(count($sameImage) === 1) {
+            if (count($sameImage) === 1) {
                 $imagePath = App::$ROOT_DIRECTORY . '/public' . $card->image;
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
@@ -234,15 +232,15 @@ class AdminController extends Controller
     {
 
         $users = User::findAll();
-        
+
         $deck = new Deck();
         $deck->name = '';
         $deck->description = '';
         $deck->user_id = 0;
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $deck->loadData($request->getBody());
-            if($deck->validate() && $deck->save()) {
+            if ($deck->validate() && $deck->save()) {
                 $session->setMessage('success', 'Deck created successfully');
                 $response->redirect('/dashboard');
                 return;
@@ -271,9 +269,9 @@ class AdminController extends Controller
         $deck->description = '';
         $deck->user_id = $user_id;
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $deck->loadData($request->getBody());
-            if($deck->validate() && $deck->save()) {
+            if ($deck->validate() && $deck->save()) {
                 $session->setMessage('success', 'Deck created');
                 $response->redirect("/dashboard/profile/{$user_id}");
                 return;
@@ -303,16 +301,16 @@ class AdminController extends Controller
         $cardDeck->card_id = 0;
         $cardDeck->deck_id = $deck_id;
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $cardDeck->loadData($request->getBody());
             $cardDupes = $deck->countCards($cardDeck->card_id);
 
-            if($cardDupes >= 2 || $cardsInDeck >= 30) {
+            if ($cardDupes >= 2 || $cardsInDeck >= 30) {
                 $session->setMessage('danger', 'Limit reached (2 copies per card/30 cards per deck)');
                 $response->redirect("/dashboard/decks/{$deck_id}");
                 return;
             } else {
-                if($cardDeck->validate() && $cardDeck->save()) {
+                if ($cardDeck->validate() && $cardDeck->save()) {
                     $response->redirect("/dashboard/decks/{$deck_id}");
                     return;
                 }
@@ -337,17 +335,16 @@ class AdminController extends Controller
         $params = $request->getRouteParams();
         $deck_id = (int)$params['id'];
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $card_id = $request->getBody()['card_id'];
 
             $cardDeck = CardDeck::findOne(['deck_id' => $deck_id, 'card_id' => $card_id]);
 
-            if($cardDeck->delete()) {
+            if ($cardDeck->delete()) {
                 $response->redirect("/dashboard/decks/{$deck_id}");
                 return;
             }
         }
-
     }
 
     public function editDeck(Request $request, Response $response, Session $session)
@@ -362,9 +359,9 @@ class AdminController extends Controller
 
         $deck = Deck::findOne(['deck_id' => $deck_id]);
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $deck->loadData($request->getBody());
-            if($deck->validate() && $deck->update()) {
+            if ($deck->validate() && $deck->update()) {
                 $session->setMessage('success', 'Deck successfully updated');
                 $response->redirect("/dashboard/decks/{$deck_id}");
                 return;
@@ -387,8 +384,8 @@ class AdminController extends Controller
 
         $deck = Deck::findOne(['deck_id' => $deck_id]);
 
-        if($request->is_method_post() && $deck) {
-            if($deck->deleteRelated()) {
+        if ($request->is_method_post() && $deck) {
+            if ($deck->deleteRelated()) {
                 $session->setMessage('danger', 'Deck deleted');
                 $response->redirect('/dashboard');
                 return;
@@ -403,9 +400,9 @@ class AdminController extends Controller
 
         $deck = Deck::findOne(['deck_id' => $deck_id]);
 
-        if($request->is_method_post() && $deck) {
+        if ($request->is_method_post() && $deck) {
             $user_id = (int) $deck->user_id;
-            if($deck->deleteRelated()) {
+            if ($deck->deleteRelated()) {
                 $session->setMessage('danger', 'Deck deleted');
                 $response->redirect("/dashboard/profile/{$user_id}");
                 return;
@@ -420,13 +417,13 @@ class AdminController extends Controller
         $user->email = '';
         $user->password = '';
         $user->role_id = 0;
-        
+
         $roles = Role::findAll();
 
-        if($request->is_method_post()){
+        if ($request->is_method_post()) {
             $user->loadData($request->getBody());
-            
-            if($user->validate() && $user->save()){
+
+            if ($user->validate() && $user->save()) {
                 $session->setMessage('success', 'User created successfully');
                 $response->redirect('/dashboard');
                 return;
@@ -462,7 +459,7 @@ class AdminController extends Controller
         $user = User::findOne(['user_id' => $user_id]);
         $roles = Role::findAll();
 
-        if($request->is_method_post()) {
+        if ($request->is_method_post()) {
             $user->loadData($request->getBody());
 
             if ($user->validate() && $user->update()) {
@@ -487,26 +484,27 @@ class AdminController extends Controller
     {
         $params = $request->getRouteParams();
         $user_id = $params['id'];
-        
+
         $user = User::findOne(['user_id' => $user_id]);
-      
-        if($user && $user->user_id === App::$app->user->user_id) {
+
+        if ($user && $user->user_id === App::$app->user->user_id) {
+            $session->setMessage('danger', 'You cannot delete yourself');
             $response->redirect('/dashboard');
             return;
         }
 
-        if($request->is_method_post() && $user) {
+        if ($request->is_method_post() && $user) {
 
             foreach ($user->decks() as $deck) {
-            
+
                 $deck->deleteRelated();
             }
 
-            if($user->delete()) {
+            if ($user->delete()) {
                 $session->setMessage('danger', 'User deleted');
                 $response->redirect('/dashboard');
                 return;
             }
         }
-    } 
+    }
 }

@@ -1,5 +1,7 @@
 <?php 
 use app\core\App;
+
+$user = App::$app->user;
 ?>
 
 <!doctype html>
@@ -46,9 +48,7 @@ use app\core\App;
                     <a class="nav-link" href="/profile">profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?>
-                      (Logout)
-                    </a>
+                    <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?></a>
                 </li>
               </ul>
             <?php endif; ?>
@@ -57,7 +57,7 @@ use app\core\App;
     </nav>
 
     <div class="container-fluid">
-      
+
       <?php if (App::$app->session->getMessage('success')): ?>
       <div class="alert alert-success">
         <?php echo App::$app->session->getMessage('success') ?>

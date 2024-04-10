@@ -35,4 +35,9 @@ class Set extends DbModel
     {
         return ['name'];
     }
+
+    public function cards()
+    {
+        return $this->hasMany(Card::class, 'set_id');
+    }
 }
