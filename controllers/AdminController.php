@@ -42,6 +42,18 @@ class AdminController extends Controller
         ]);
     }
 
+    public function showSet(Request $request)
+    {
+        $params = $request->getRouteParams();
+        $set_id = $params['id'];
+
+        $set = Set::findOne(['set_id' => $set_id]);
+
+        return $this->render('admin.set.show', [
+            'set' => $set
+        ]);
+    }
+
     public function createSet(Request $request, Response $response, Session $session)
     {
         $set = new Set();
@@ -115,6 +127,17 @@ class AdminController extends Controller
     }
 
 
+    public function showCard(Request $request)
+    {
+        $params = $request->getRouteParams();
+        $card_id = $params['id'];
+
+        $card = Card::findOne(['card_id' => $card_id]);
+
+        return $this->render('admin.card.show', [
+            'card' => $card
+        ]);
+    }
 
     public function createCard(Request $request, Response $response, Session $session)
     {

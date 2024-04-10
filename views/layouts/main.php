@@ -48,7 +48,7 @@ $user = App::$app->user;
                     <a class="nav-link" href="/profile">profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?></a>
+                    <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?> (Logout)</a>
                 </li>
               </ul>
             <?php endif; ?>

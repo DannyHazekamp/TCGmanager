@@ -74,13 +74,13 @@
           <?php foreach ($cards as $card): ?>
             <tr>
               <td><?php echo $card->card_id ?></td>
-              <td><?php echo $card->name ?></td>
+              <td><a class="text-decoration-none" href="/dashboard/cards/<?php echo $card->card_id ?>"><?php echo $card->name ?></a></td>
               <td><?php echo $card->attack ?></td>
               <td><?php echo $card->defense ?></td>
               <td><?php echo $card->rarity ?></td>
               <td><?php echo $card->price ?></td>
               <td><?php echo $card->set() ? $card->set()->name : 'No set'; ?></td>
-              <td><a href="/dashboard/cards/<?php echo $card->card_id; ?>" class="btn btn-primary">Edit</a></td>
+              <td><a href="/dashboard/cards/edit/<?php echo $card->card_id; ?>" class="btn btn-primary">Edit</a></td>
               <td>
                 <form action="/dashboard/cards/<?php echo $card->card_id ?>/delete" method="post">
                   <button type="submit" class="btn btn-danger">Delete</button>
@@ -137,8 +137,8 @@
           <?php foreach ($sets as $set): ?>
             <tr>
               <td><?php echo $set->set_id ?></td>
-              <td><?php echo $set->name ?></td>
-              <td><a href="/dashboard/sets/<?php echo $set->set_id ?>" class="btn btn-primary">Edit</a></td>
+              <td><a class="text-decoration-none" href="/dashboard/sets/<?php echo $set->set_id ?>"><?php echo $set->name ?></a></td>
+              <td><a href="/dashboard/sets/edit/<?php echo $set->set_id ?>" class="btn btn-primary">Edit</a></td>
               <td>
                 <form action="/dashboard/sets/<?php echo $set->set_id ?>/delete" method="post">
                   <input type="hidden" name="set_id" value="<?php echo $set->set_id; ?>">
