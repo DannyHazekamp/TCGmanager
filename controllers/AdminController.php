@@ -27,7 +27,6 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-
         $currentUser = App::$app->user;
         $users = User::findAll();
         $cards = Card::findAll();
@@ -387,7 +386,9 @@ class AdminController extends Controller
         if ($request->is_method_post() && $deck) {
             if ($deck->deleteRelated()) {
                 $session->setMessage('danger', 'Deck deleted');
-                $response->redirect('/dashboard');
+
+                $currentUrl = $request->getPath();
+                $response->redirect("/dashboard");
                 return;
             }
         }

@@ -23,7 +23,12 @@
   </div>
   <div class="form-group">
     <label>Rarity</label>
-    <input type="text" name="rarity" value="<?php echo $model->rarity ?>" class="form-control <?php echo $model->hasError('rarity') ? 'is-invalid' : '' ?>" placeholder="Enter the rarity">
+    <select name="rarity" class="form-control <?php echo $model->hasError('rarity') ? 'is-invalid' : '' ?>">
+      <option value="Common">Common</option>
+      <option value="Rare">Rare</option>
+      <option value="Epic">Epic</option>
+      <option value="Legendary">Legendary</option>
+    </select>
     <div class="invalid-feedback">
       <?php echo $model->getError('rarity') ?>
     </div>

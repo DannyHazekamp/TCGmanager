@@ -6,6 +6,9 @@
             <div class="card-body">
                 <p class="card-text">  <?php echo $deck->description; ?></p>
                 <a href="/decks/edit/<?php echo $deck->deck_id; ?>" class="btn btn-primary">Edit</a>
+                <form action="/decks/<?php echo $deck->deck_id ?>/delete" method="post">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     </div>

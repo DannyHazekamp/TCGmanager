@@ -18,7 +18,7 @@
     <label>Role</label>
     <select name="role_id" class="form-control <?php echo $user->hasError('role_id') ? 'is-invalid' : '' ?>">
       <?php foreach ($roles as $role) : ?>
-        <option value="<?php echo $role->role_id ?>"><?php echo $role->name ?></option>
+        <option value="<?php echo $role->role_id ?>" <?php echo ($role->role_id == $user->role_id) ? 'selected' : '' ?>> <?php echo $role->name ?> </option>
       <?php endforeach; ?>
     </select>
     <div class="invalid-feedback">

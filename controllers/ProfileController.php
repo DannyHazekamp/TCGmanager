@@ -18,10 +18,6 @@ class ProfileController extends Controller
 
     public function show(Request $request, Response $response)
     {
-        if (App::isGuest()) {
-            $response->redirect('/');
-            return;
-        }
 
         $user = App::$app->user;
 
@@ -33,10 +29,6 @@ class ProfileController extends Controller
 
     public function edit(Request $request, Response $response, Session $session)
     {
-        if (App::isGuest()) {
-            $response->redirect('/');
-            return;
-        }
 
         $user = App::$app->user;
 

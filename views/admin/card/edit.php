@@ -23,7 +23,12 @@
   </div>
   <div class="form-group">
     <label>Rarity</label>
-    <input type="text" name="rarity" value="<?php echo $card->rarity ?>" class="form-control <?php echo $card->hasError('rarity') ? 'is-invalid' : '' ?>" placeholder="Enter the rarity">
+    <select name="rarity" class="form-control <?php echo $card->hasError('rarity') ? 'is-invalid' : '' ?>">
+      <option value="Common" <?php echo ($card->rarity == 'Common') ? 'selected' : '' ?>>Common</option>
+      <option value="Rare" <?php echo ($card->rarity == 'Rare') ? 'selected' : '' ?>>Rare</option>
+      <option value="Epic" <?php echo ($card->rarity == 'Epic') ? 'selected' : '' ?>>Epic</option>
+      <option value="Legendary" <?php echo ($card->rarity == 'Legendary') ? 'selected' : '' ?>>Legendary</option>
+    </select>
     <div class="invalid-feedback">
       <?php echo $card->getError('rarity') ?>
     </div>
