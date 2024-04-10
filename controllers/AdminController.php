@@ -12,6 +12,7 @@ use app\models\CardDeck;
 use app\core\Request;
 use app\core\Response;
 use app\core\App;
+use app\core\Session;
 use app\core\middlewares\RoleMiddleware;
 
 
@@ -42,7 +43,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function createSet(Request $request, Response $response)
+    public function createSet(Request $request, Response $response, Session $session)
     {
         $set = new Set();
 
@@ -51,6 +52,7 @@ class AdminController extends Controller
         if($request->is_method_post()) {
             $set->loadData($request->getBody());
             if($set->validate() && $set->save()) {
+                $session->setMessage('success', 'Set created successfully');
                 $response->redirect('/dashboard');
                 return;
             }
@@ -65,7 +67,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function updateSet(Request $request, Response $response)
+    public function updateSet(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $set_id = $params['id'];
@@ -75,6 +77,7 @@ class AdminController extends Controller
         if($request->is_method_post()) {
             $set->loadData($request->getBody());
             if($set->validate() && $set->update()) {
+                $session->setMessage('success', 'Set updated successfully');
                 $response->redirect('/dashboard');
                 return;
             }
@@ -89,7 +92,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function deleteSet(Request $request, Response $response)
+    public function deleteSet(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $set_id = $params['id'];
@@ -105,19 +108,21 @@ class AdminController extends Controller
             }
 
             if($set->delete()) {
+                $session->setMessage('danger', 'Set deleted');
                 $response->redirect('/dashboard');
+                return;
             }
         }
     }   
 
 
 
-    public function createCard(Request $request, Response $response)
+    public function createCard(Request $request, Response $response, Session $session)
     {
 
         $sets = Set::findAll();
-        $card = new Card();
 
+        $card = new Card();
         $card->name = '';
         $card->attack = 0;
         $card->defense = 0;
@@ -138,7 +143,9 @@ class AdminController extends Controller
             }
 
             if($card->validate() && $card->save()){
+                $session->setMessage('success', 'Card created successfully');
                 $response->redirect('/dashboard');
+                return;
             }
             return $this->render('admin.card.create', [
                 'model' => $card,
@@ -153,7 +160,7 @@ class AdminController extends Controller
 
     }
 
-    public function updateCard(Request $request, Response $response)
+    public function updateCard(Request $request, Response $response, Session $session)
     {
         
         $params = $request->getRouteParams();
@@ -175,7 +182,9 @@ class AdminController extends Controller
             }
 
             if($card->validate() && $card->update()){
+                $session->setMessage('success', 'Card updated successfully');
                 $response->redirect('/dashboard');
+                return;
             }
             return $this->render('admin.card.edit', [
                 'card' => $card,
@@ -190,7 +199,7 @@ class AdminController extends Controller
 
     }
 
-    public function deleteCard(Request $request, Response $response)
+    public function deleteCard(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $card_id = $params['id'];
@@ -214,22 +223,19 @@ class AdminController extends Controller
         }
 
         if ($card->delete()) {
+            $session->setMessage('danger', 'Card deleted');
             $response->redirect('/dashboard');
             return;
         }
     }
 
 
-    public function createDeck(Request $request, Response $response)
+    public function createDeck(Request $request, Response $response, Session $session)
     {
-        if (App::isGuest()) {
-            $response->redirect('/');
-            return;
-        }
 
         $users = User::findAll();
+        
         $deck = new Deck();
-
         $deck->name = '';
         $deck->description = '';
         $deck->user_id = 0;
@@ -237,6 +243,7 @@ class AdminController extends Controller
         if($request->is_method_post()) {
             $deck->loadData($request->getBody());
             if($deck->validate() && $deck->save()) {
+                $session->setMessage('success', 'Deck created successfully');
                 $response->redirect('/dashboard');
                 return;
             }
@@ -253,13 +260,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function createDeckProfile(Request $request, Response $response)
+    public function createDeckProfile(Request $request, Response $response, Session $session)
     {
-        if (App::isGuest()) {
-            $response->redirect('/');
-            return;
-        }
-
         $params = $request->getRouteParams();
         $user_id = $params['id'];
 
@@ -272,6 +274,7 @@ class AdminController extends Controller
         if($request->is_method_post()) {
             $deck->loadData($request->getBody());
             if($deck->validate() && $deck->save()) {
+                $session->setMessage('success', 'Deck created');
                 $response->redirect("/dashboard/profile/{$user_id}");
                 return;
             }
@@ -286,7 +289,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function showDeck(Request $request, Response $response)
+    public function showDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $deck_id = $params['id'];
@@ -305,6 +308,7 @@ class AdminController extends Controller
             $cardDupes = $deck->countCards($cardDeck->card_id);
 
             if($cardDupes >= 2 || $cardsInDeck >= 30) {
+                $session->setMessage('danger', 'Limit reached (2 copies per card/30 cards per deck)');
                 $response->redirect("/dashboard/decks/{$deck_id}");
                 return;
             } else {
@@ -346,7 +350,7 @@ class AdminController extends Controller
 
     }
 
-    public function editDeck(Request $request, Response $response)
+    public function editDeck(Request $request, Response $response, Session $session)
     {
         if (App::isGuest()) {
             $response->redirect('/');
@@ -361,6 +365,7 @@ class AdminController extends Controller
         if($request->is_method_post()) {
             $deck->loadData($request->getBody());
             if($deck->validate() && $deck->update()) {
+                $session->setMessage('success', 'Deck successfully updated');
                 $response->redirect("/dashboard/decks/{$deck_id}");
                 return;
             }
@@ -375,7 +380,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function deleteDeck(Request $request, Response $response)
+    public function deleteDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $deck_id = $params['id'];
@@ -384,12 +389,14 @@ class AdminController extends Controller
 
         if($request->is_method_post() && $deck) {
             if($deck->deleteRelated()) {
+                $session->setMessage('danger', 'Deck deleted');
                 $response->redirect('/dashboard');
+                return;
             }
         }
     }
 
-    public function deleteDeckProfile(Request $request, Response $response)
+    public function deleteDeckProfile(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $deck_id = $params['id'];
@@ -399,12 +406,14 @@ class AdminController extends Controller
         if($request->is_method_post() && $deck) {
             $user_id = (int) $deck->user_id;
             if($deck->deleteRelated()) {
+                $session->setMessage('danger', 'Deck deleted');
                 $response->redirect("/dashboard/profile/{$user_id}");
+                return;
             }
         }
     }
 
-    public function createUser(Request $request, Response $response)
+    public function createUser(Request $request, Response $response, Session $session)
     {
         $user = new User();
         $user->username = '';
@@ -418,6 +427,7 @@ class AdminController extends Controller
             $user->loadData($request->getBody());
             
             if($user->validate() && $user->save()){
+                $session->setMessage('success', 'User created successfully');
                 $response->redirect('/dashboard');
                 return;
             }
@@ -444,7 +454,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function updateUser(Request $request, Response $response)
+    public function updateUser(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $user_id = $params['id'];
@@ -456,7 +466,9 @@ class AdminController extends Controller
             $user->loadData($request->getBody());
 
             if ($user->validate() && $user->update()) {
+                $session->setMessage('success', 'User has been updated');
                 $response->redirect("/dashboard/profile/{$user->user_id}");
+                return;
             }
 
             return $this->render('admin.user.edit', [
@@ -471,7 +483,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function deleteUser(Request $request, Response $response)
+    public function deleteUser(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $user_id = $params['id'];
@@ -491,6 +503,7 @@ class AdminController extends Controller
             }
 
             if($user->delete()) {
+                $session->setMessage('danger', 'User deleted');
                 $response->redirect('/dashboard');
                 return;
             }

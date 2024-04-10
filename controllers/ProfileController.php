@@ -6,6 +6,7 @@ use app\core\App;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
+use app\core\Session;
 use app\core\middlewares\RoleMiddleware;
 use app\models\User;
 use app\models\Deck;
@@ -32,7 +33,7 @@ class ProfileController extends Controller
     }
 
 
-    public function edit(Request $request, Response $response) 
+    public function edit(Request $request, Response $response, Session $session) 
     {
         if (App::isGuest()) {
             $response->redirect('/');
@@ -40,11 +41,12 @@ class ProfileController extends Controller
         }
 
         $user = App::$app->user;
-
+        
         if($request->is_method_post()) {
             $user->loadData($request->getBody());
 
             if ($user->validate() && $user->update()) {
+                $session->setMessage('success', 'Profile updated successfully');
                 $response->redirect('/profile', [
                     'user' => $user
                 ]);
@@ -62,7 +64,7 @@ class ProfileController extends Controller
         
     }
 
-    public function subscribe(Request $request, Response $response)
+    public function subscribe(Request $request, Response $response, Session $session)
     {
         $user = App::$app->user;
 
@@ -78,7 +80,7 @@ class ProfileController extends Controller
             $user->role_id = 3;
 
             if ($user->validate() && $user->update()) {
-
+                $session->setMessage('success', 'Subscribed to premium');
                 $response->redirect('/profile', [
                     'user' => $user
                 ]);
@@ -89,7 +91,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function unsubscribe(Request $request, Response $response)
+    public function unsubscribe(Request $request, Response $response, Session $session)
     {
         $user = App::$app->user;
 
@@ -105,7 +107,7 @@ class ProfileController extends Controller
             $user->role_id = 2;
 
             if ($user->validate() && $user->update()) {
-
+                $session->setMessage('danger', 'Unsubscribed from premium');
                 $response->redirect('/profile', [
                     'user' => $user
                 ]);

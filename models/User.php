@@ -7,7 +7,6 @@ use app\core\DbModel;
 
 class User extends DbModel
 {
-    public int $user_id;
     public string $username;
     public string $email;
     public string $password;
@@ -35,7 +34,7 @@ class User extends DbModel
         return [
             'username' => [self::REQUIRED],
             'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class, 'exclude' => $this->user_id]],
-            'password' => [self::REQUIRED],
+            'password' => [self::REQUIRED, [self::MIN, 'min' => 6], [self::MAX, 'max' => 30]],
             'role_id' => [self::REQUIRED, self::MISMATCH]
         ];
     }

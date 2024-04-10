@@ -6,6 +6,7 @@ use app\core\App;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
+use app\core\Session;
 use app\core\middlewares\RoleMiddleware;
 use app\models\User;
 use app\models\Deck;
@@ -19,7 +20,7 @@ class DeckController extends Controller
         $this->registerMiddleware(new RoleMiddleware(['premium_user', 'admin']));
     }
 
-    public function create(Request $request, Response $response)
+    public function create(Request $request, Response $response, Session $session)
     {
         if (App::isGuest()) {
             $response->redirect('/');
@@ -36,6 +37,7 @@ class DeckController extends Controller
         if($request->is_method_post()) {
             $deck->loadData($request->getBody());
             if($deck->validate() && $deck->save()) {
+                $session->setMessage('success', 'Deck created successfully');
                 $response->redirect('/profile');
                 return;
             }
@@ -110,7 +112,7 @@ class DeckController extends Controller
 
     }
 
-    public function editDeck(Request $request, Response $response)
+    public function editDeck(Request $request, Response $response, Session $session)
     {
         if (App::isGuest()) {
             $response->redirect('/');
@@ -125,6 +127,7 @@ class DeckController extends Controller
         if($request->is_method_post()) {
             $deck->loadData($request->getBody());
             if($deck->validate() && $deck->update()) {
+                $session->setMessage('success', 'Deck edited successfully');
                 $response->redirect("/decks/{$deck_id}");
                 return;
             }
@@ -139,7 +142,7 @@ class DeckController extends Controller
         ]);
     }
 
-    public function deleteDeck(Request $request, Response $response)
+    public function deleteDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $deck_id = $params['id'];
@@ -148,6 +151,7 @@ class DeckController extends Controller
 
         if($request->is_method_post() && $deck) {
             if($deck->deleteRelated()) {
+                $session->setMessage('danger', 'Deck deleted successfully');
                 $response->redirect('/profile');
             }
         }

@@ -42,7 +42,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request, Response $response) 
+    public function login(Request $request, Response $response, Session $session) 
     {
         $loginModel = new LoginModel();
 
@@ -52,6 +52,7 @@ class AuthController extends Controller
         if($request->is_method_post()) {
             $loginModel->loadData($request->getBody());
             if($loginModel->validate() && $loginModel->login()) {
+                $session->setMessage('success', 'Logged in, welcome!');
                 $response->redirect('/');
             }
         }
@@ -60,9 +61,10 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request, Response $response)
+    public function logout(Request $request, Response $response, Session $session)
     {
         App::$app->logout();
+        $session->setMessage('danger', 'Logged out');
         $response->redirect('/login');
     }
 }

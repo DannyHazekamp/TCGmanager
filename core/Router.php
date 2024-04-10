@@ -36,6 +36,11 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->method();
 
+        if($path === '/' && App::isGuest()) {
+            $this->response->redirect('/login');
+            return;
+        }
+
         foreach ($this->routes[$method] as $route => $callback) {
 
             $pattern = preg_replace('/\/{(.*?)}/', '/(.*?)', $route);
