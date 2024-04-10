@@ -57,6 +57,11 @@ use app\core\App;
     </nav>
 
     <div class="container-fluid">
+      <?php if (App::$app->session->getMessage('success')): ?>
+      <div class="alert alert-success">
+        <?php echo App::$app->session->getMessage('success') ?>
+      </div>
+      <?php endif; ?>
       {{content}}
     </div>
 

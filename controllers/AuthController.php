@@ -7,6 +7,7 @@ use app\core\Request;
 use app\core\middlewares\RoleMiddleware;
 use app\models\User;
 use app\core\Response;
+use app\core\Session;
 use app\core\App;
 use app\models\LoginModel;
 
@@ -17,7 +18,7 @@ class AuthController extends Controller
         $this->registerMiddleware(new RoleMiddleware([]))->only(['login', 'register']);
     }
 
-    public function register(Request $request, Response $response)
+    public function register(Request $request, Response $response, Session $session)
     {
         $user = new User();
         $user->username = '';
@@ -29,6 +30,7 @@ class AuthController extends Controller
             $user->loadData($request->getBody());
             
             if($user->validate() && $user->save()){
+                $session->setMessage('success', 'Successfully registered');
                 $response->redirect('/login');
             }
             return $this->render('auth.register', [

@@ -7,10 +7,12 @@ use app\core\DbModel;
 
 class User extends DbModel
 {
+    public int $user_id;
     public string $username;
     public string $email;
     public string $password;
     public int $role_id;
+
 
     public static function tableName(): string
     {

@@ -9,13 +9,15 @@ class Router
 {
     public Request $request;
     public Response $response;
+    public Session $session;
     protected array $routes = [];
 
 
-    public function __construct(Request $request, Response $response)
+    public function __construct(Request $request, Response $response, Session $session)
     {
         $this->request = $request;
         $this->response = $response;
+        $this->session = $session;
     }
 
 
@@ -69,7 +71,7 @@ class Router
                         throw new ForbiddenException();
                     }
                 }
-                return call_user_func($callback, $this->request, $this->response);
+                return call_user_func($callback, $this->request, $this->response, $this->session);
             }
         }
 
