@@ -10,8 +10,8 @@
         <a class="nav-link" href="/cards/<?php echo $card->card_id ?>">
         <div class="card h-100">
             <img src="<?php echo $card->image ?>" class="card-img-top" alt="Card Image">
-            <div class="card-body text-center">
-                <h5 class="card-title"><?php echo $card->name ?></h5>
+            <div class="card-body text-center overflow-hidden">
+                <h5 class="card-title text-truncate"><?php echo $card->name ?></h5>
             </div>
         </div>
         </a>

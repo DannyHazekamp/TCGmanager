@@ -27,7 +27,7 @@ class Set extends DbModel
     public function rules(): array
     {
         return [
-            'name' => [self::REQUIRED]
+            'name' => [self::REQUIRED, [self::MAX, 'max' => 255]]
         ];
     }
 

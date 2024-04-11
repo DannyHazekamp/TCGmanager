@@ -19,7 +19,7 @@ class LoginModel extends Model
     public function rules(): array
     {
         return [
-            'email' => [self::REQUIRED, self::VALID_EMAIL],
+            'email' => [self::REQUIRED, self::VALID_EMAIL, [self::MAX, 'max' => 254]],
             'password' => [self::REQUIRED]
         ];
     }

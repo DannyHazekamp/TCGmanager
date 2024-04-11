@@ -22,7 +22,7 @@
                     <div class="card h-100">
                         <img src="<?php echo $card->card()->image; ?>" class="card-img-top" alt="<?php echo $card->card()->name; ?>">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $card->card()->name; ?></h5>
+                            <h5 class="card-title text-truncate"><?php echo $card->card()->name; ?></h5>
                             <form action="/decks/<?php echo $deck->deck_id; ?>/remove" method="post">
                                 <input type="hidden" name="card_id" value="<?php echo $card->card_id; ?>">
                                 <button type="submit" class="btn btn-danger">Remove</button>
@@ -41,7 +41,7 @@
                     <div class="card h-100">
                         <img src="<?php echo $card->image; ?>" class="card-img-top" alt="<?php echo $card->name; ?>">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $card->name; ?></h5>
+                            <h5 class="card-title text-truncate"><?php echo $card->name; ?></h5>
                             <form action="/decks/<?php echo $deck->deck_id; ?>/add" method="post">
                                 <input type="hidden" name="card_id" value="<?php echo $card->card_id; ?>">
                                 <button type="submit" class="btn btn-primary">Add</button>

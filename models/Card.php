@@ -33,12 +33,11 @@ class Card extends DbModel
     public function rules(): array
     {
         return [
-            'name' => [self::REQUIRED],
+            'name' => [self::REQUIRED, [self::MAX, 'max' => 255]],
             'attack' => [self::REQUIRED],
             'defense' => [self::REQUIRED],
-            'rarity' => [self::REQUIRED],
+            'rarity' => [self::REQUIRED, [self::MAX, 'max' => 255]],
             'price' => [self::REQUIRED],
-            'image' => [self::REQUIRED],
             'set_id' => [self::REQUIRED]
         ];
     }

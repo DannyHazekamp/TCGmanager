@@ -30,7 +30,8 @@ class Deck extends DbModel
     public function rules(): array
     {
         return [
-            'name' => [self::REQUIRED],
+            'name' => [self::REQUIRED, [self::MAX, 'max' => 255]],
+            'description' => [[self::MAX, 'max' => 500]],
             'user_id' => [self::REQUIRED]
         ];
     }

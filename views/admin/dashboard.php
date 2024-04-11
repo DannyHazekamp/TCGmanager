@@ -23,10 +23,11 @@
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
       <a href="/dashboard/profile" class="btn btn-primary">Create</a>
+      <div class="table-responsive">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Id</th>
             <th scope="col">Username</th>
             <th scope="col">E-mail</th>
             <th scope="col">Role</th>
@@ -39,8 +40,8 @@
             <?php if ($user->user_id !== $currentUser->user_id): ?>
               <tr>
                 <td><?php echo $user->user_id ?></td>
-                <td><?php echo $user->username ?></td>
-                <td><?php echo $user->email ?></td>
+                <td class="text-truncate truncate-size"><?php echo $user->username ?></td>
+                <td class="text-truncate truncate-size"><?php echo $user->email ?></td>
                 <td><?php echo $user->role()->name; ?></td>
                 <td><a href="/dashboard/profile/<?php echo $user->user_id; ?>" class="btn btn-primary">Profile</a></td>
                 <td>
@@ -53,13 +54,15 @@
           <?php endforeach; ?>
         </tbody>
       </table>
+      </div>
     </div>
     <div class="tab-pane fade" id="cards" role="tabpanel" aria-labelledby="cards-tab">
       <a href="/dashboard/cards" class="btn btn-primary">Create</a>
-      <table class="table">
+      <div class="table-responsive">
+      <table class="table table-sm">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Attack power</th>
             <th scope="col">Defensive power</th>
@@ -74,12 +77,12 @@
           <?php foreach ($cards as $card): ?>
             <tr>
               <td><?php echo $card->card_id ?></td>
-              <td><a class="text-decoration-none" href="/dashboard/cards/<?php echo $card->card_id ?>"><?php echo $card->name ?></a></td>
+              <td class="text-truncate truncate-size"><a class="text-decoration-none" href="/dashboard/cards/<?php echo $card->card_id ?>"><?php echo $card->name ?></a></td>
               <td><?php echo $card->attack ?></td>
               <td><?php echo $card->defense ?></td>
-              <td><?php echo $card->rarity ?></td>
+              <td class="text-truncate truncate-size"><?php echo $card->rarity ?></td>
               <td><?php echo $card->price ?></td>
-              <td><?php echo $card->set() ? $card->set()->name : 'No set'; ?></td>
+              <td class="text-truncate truncate-size"><?php echo $card->set() ? $card->set()->name : 'No set'; ?></td>
               <td><a href="/dashboard/cards/edit/<?php echo $card->card_id; ?>" class="btn btn-primary">Edit</a></td>
               <td>
                 <form action="/dashboard/cards/<?php echo $card->card_id ?>/delete" method="post">
@@ -90,13 +93,15 @@
           <?php endforeach; ?>
         </tbody>
       </table>
+      </div>
     </div>
     <div class="tab-pane fade" id="decks" role="tabpanel" aria-labelledby="decks-tab">
       <a href="/dashboard/decks" class="btn btn-primary">Create</a>
+      <div class="table-responsive">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">User</th>
@@ -108,9 +113,9 @@
           <?php foreach ($decks as $deck): ?>
             <tr>
               <td><?php echo $deck->deck_id ?></td>
-              <td><?php echo $deck->name ?></td>
-              <td><?php echo $deck->description ?></td>
-              <td><?php echo $deck->user()->username; ?></td>
+              <td class="text-truncate truncate-size"><?php echo $deck->name ?></td>
+              <td class="text-truncate truncate-size"><?php echo $deck->description ?></td>
+              <td class="text-truncate truncate-size"><?php echo $deck->user()->username; ?></td>
               <td><a href="/dashboard/decks/<?php echo $deck->deck_id; ?>" class="btn btn-primary">Edit</a></td>
               <td>
                 <form action="/dashboard/decks/<?php echo $deck->deck_id ?>/delete" method="post">
@@ -121,13 +126,15 @@
           <?php endforeach; ?>
         </tbody>
       </table>
+      </div>
     </div>
     <div class="tab-pane fade" id="sets" role="tabpanel" aria-labelledby="sets-tab">
       <a href="/dashboard/sets" class="btn btn-primary">Create</a>
+      <div class="table-responsive">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -137,7 +144,7 @@
           <?php foreach ($sets as $set): ?>
             <tr>
               <td><?php echo $set->set_id ?></td>
-              <td><a class="text-decoration-none" href="/dashboard/sets/<?php echo $set->set_id ?>"><?php echo $set->name ?></a></td>
+              <td class="text-truncate truncate-size"><a class="text-decoration-none" href="/dashboard/sets/<?php echo $set->set_id ?>"><?php echo $set->name ?></a></td>
               <td><a href="/dashboard/sets/edit/<?php echo $set->set_id ?>" class="btn btn-primary">Edit</a></td>
               <td>
                 <form action="/dashboard/sets/<?php echo $set->set_id ?>/delete" method="post">
@@ -149,5 +156,6 @@
           <?php endforeach; ?>
         </tbody>
       </table>
+      </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<h1>Edit the card</h1>
+<h1>Edit card</h1>
 <form action="" method="post" enctype="multipart/form-data">
   <div class="form-group mb-2">
     <label>Name</label>
@@ -10,20 +10,20 @@
 
   <div class="row mb-2">
     <div class="col-sm-6">
-      <div class="form-group">
+      <div class="form-group mb-2">
         <label>Attack power</label>
-        <input type="number" name="attack" value="<?php echo $card->attack ?>" class="form-control <?php echo $card->hasError('attack') ? 'is-invalid' : '' ?>" placeholder="Enter attack power">
+        <input type="number" min="1" max="1000" name="attack" value="<?php echo $card->attack ?>" class="form-control <?php echo $card->hasError('attack') ? 'is-invalid' : '' ?>" placeholder="Enter attack power" required>
         <div class="invalid-feedback">
-          <?php echo $card->getError('attack') ?>
+          <?php echo $card->hasError('attack') ? $card->getError('attack') : 'Please enter attack power'; ?>
         </div>
       </div>
     </div>
     <div class="col-sm-6">
-      <div class="form-group">
+      <div class="form-group mb-2">
         <label>Defense</label>
-        <input type="number" name="defense" value="<?php echo $card->defense ?>" class="form-control <?php echo $card->hasError('defense') ? 'is-invalid' : '' ?>" placeholder="Enter defensive power">
+        <input type="number" min="1" max="1000" name="defense" value="<?php echo $card->defense ?>" class="form-control <?php echo $card->hasError('defense') ? 'is-invalid' : '' ?>" placeholder="Enter defensive power" required>
         <div class="invalid-feedback">
-          <?php echo $card->getError('defense') ?>
+          <?php echo $card->hasError('defense') ? $card->getError('defense') : 'Please enter defensive power'; ?>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
 
   <div class="row">
     <div class="col-sm-4">
-      <div class="form-group">
+      <div class="form-group mb-2">
         <label>Rarity</label>
         <select name="rarity" class="form-control <?php echo $card->hasError('rarity') ? 'is-invalid' : '' ?>">
           <option value="Common" <?php echo ($card->rarity == 'Common') ? 'selected' : '' ?>>Common</option>
@@ -56,11 +56,11 @@
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="form-group">
+      <div class="form-group mb-2">
         <label>Price</label>
         <div class="input-group mb-3">
           <span class="input-group-text">€</span>
-          <input type="number" name="price" value="<?php echo $card->price ?>" class="form-control <?php echo $card->hasError('price') ? 'is-invalid' : '' ?>" placeholder="Enter the price">
+          <input type="number" step=".01" min="0.01" max="100000" name="price" value="<?php echo $card->price ?>" class="form-control <?php echo $card->hasError('price') ? 'is-invalid' : '' ?>" placeholder="Enter the price" required>
           <div class="invalid-feedback">
             <?php echo $card->getError('price') ?>
           </div>
@@ -72,5 +72,5 @@
     <label>Image</label>
     <input type="file" name="image" class="form-control">
   </div>
-  <button type="submit" class="btn btn-primary">Edit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>

@@ -36,8 +36,8 @@ class User extends DbModel
     public function rules(): array
     {
         return [
-            'username' => [self::REQUIRED],
-            'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class, 'exclude' => $this->user_id ]],
+            'username' => [self::REQUIRED, [self::MAX, 'max' => 255]],
+            'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class, 'exclude' => $this->user_id ], [self::MAX, 'max' => 254]],
             'password' => [self::REQUIRED, [self::MIN, 'min' => 6]],
             'role_id' => [self::REQUIRED, self::MISMATCH]
         ];

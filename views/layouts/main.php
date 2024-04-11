@@ -15,7 +15,7 @@ $user = App::$app->user;
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+  <link href="\styles\style.css" rel="stylesheet" type="text/css">
   <title>Tcg manager</title>
 </head>
 
@@ -51,7 +51,10 @@ $user = App::$app->user;
             <a class="nav-link" href="/profile">profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?> (Logout)</a>
+            <a class="nav-link text-truncate truncate-size"><?php echo App::$app->user->username ?></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
           </li>
         </ul>
       <?php endif; ?>

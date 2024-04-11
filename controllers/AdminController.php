@@ -146,33 +146,33 @@ class AdminController extends Controller
 
         $card = new Card();
         $card->name = '';
-        $card->attack = 0;
-        $card->defense = 0;
+        $card->attack = 1;
+        $card->defense = 1;
         $card->rarity = '';
-        $card->price = 0.0;
+        $card->price = 0.01;
         $card->set_id = 0;
+        $card->image = '';
 
         if ($request->is_method_post()) {
             $card->loadData($request->getBody());
-
-            $image = $request->getFile('image');
-            if ($image && $image['error'] === UPLOAD_ERR_OK) {
-                $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
-                move_uploaded_file($image['tmp_name'], $imagePath);
-                $card->image = '/img/' . $image['name'];
-            } else {
-                $card->image = '/img/placeholder.png';
+           
+            if ($card->validate()) {
+                
+                $image = $request->getFile('image');
+                if ($image && $image['error'] === UPLOAD_ERR_OK) {
+                    $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
+                    move_uploaded_file($image['tmp_name'], $imagePath);
+                    $card->image = '/img/' . $image['name'];
+                } else {
+                    $card->image = '/img/placeholder.png';
+                }
+        
+                if ($card->save()) {
+                    $session->setMessage('success', 'Card created successfully');
+                    $response->redirect('/dashboard');
+                    return;
+                }
             }
-
-            if ($card->validate() && $card->save()) {
-                $session->setMessage('success', 'Card created successfully');
-                $response->redirect('/dashboard');
-                return;
-            }
-            return $this->render('admin.card.create', [
-                'model' => $card,
-                'sets' => $sets
-            ]);
         }
 
         return $this->render('admin.card.create', [
@@ -192,25 +192,24 @@ class AdminController extends Controller
 
         if ($request->is_method_post()) {
             $card->loadData($request->getBody());
+    
+            if($card->validate()) {
+                $image = $request->getFile('image');
+                if ($image && $image['error'] === UPLOAD_ERR_OK) {
+                    $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
+                    move_uploaded_file($image['tmp_name'], $imagePath);
+                    $card->image = '/img/' . $image['name'];
+                } else {
+                    $card->image = '/img/placeholder.png';
+                }
 
-            $image = $request->getFile('image');
-            if ($image && $image['error'] === UPLOAD_ERR_OK) {
-                $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
-                move_uploaded_file($image['tmp_name'], $imagePath);
-                $card->image = '/img/' . $image['name'];
-            } else {
-                $card->image = '/img/placeholder.png';
+                if ($card->update()) {
+                    $session->setMessage('success', 'Card updated successfully');
+                    $response->redirect('/dashboard');
+                    return;
+                }
             }
-
-            if ($card->validate() && $card->update()) {
-                $session->setMessage('success', 'Card updated successfully');
-                $response->redirect('/dashboard');
-                return;
-            }
-            return $this->render('admin.card.edit', [
-                'card' => $card,
-                'sets' => $sets
-            ]);
+           
         }
 
         return $this->render('admin.card.edit', [
