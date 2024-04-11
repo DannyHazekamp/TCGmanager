@@ -1,6 +1,6 @@
 <h1>Register</h1>
 <form action="" method="post">
-<div class="form-group">
+  <div class="form-group">
     <label>Username</label>
     <input type="text" name="username" value="<?php echo $model->username ?>" class="form-control <?php echo $model->hasError('username') ? 'is-invalid' : '' ?>" placeholder="Enter username">
     <div class="invalid-feedback">
@@ -14,12 +14,19 @@
       <?php echo $model->getError('email') ?>
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group mb-2">
     <label>Password</label>
     <input type="password" name="password" value="<?php echo $model->password ?>" class="form-control <?php echo $model->hasError('password') ? 'is-invalid' : '' ?>" placeholder="Password">
     <div class="invalid-feedback">
       <?php echo $model->getError('password') ?>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">Register</button>
+  <div class="row g-1">
+    <div class="col-auto d-flex align-items-center">
+      <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+    <div class="col-auto d-flex align-items-center">
+      <p class="text-secondary mb-0">Already got a account? <a class="text-decoration-none" href="/login">Login</a></p>
+    </div>
+  </div>
 </form>

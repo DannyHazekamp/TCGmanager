@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 use app\core\App;
 
 $user = App::$app->user;
@@ -6,73 +7,76 @@ $user = App::$app->user;
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tcg manager</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">TCG</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <?php if (App::isGuest()): ?>
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                  <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/register">Register</a>
-              </li>
-            </ul>
+  <title>Tcg manager</title>
+</head>
 
-            <?php else: ?>
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <?php if (App::userHasRole(['admin'])): ?>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/dashboard">dashboard</a>
-                  </li>
-                <?php endif; ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?> (Logout)</a>
-                </li>
-              </ul>
-            <?php endif; ?>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">TCG</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        </div>
-    </nav>
+    <div class="text-center collapse navbar-collapse" id="navbarSupportedContent">
+      <?php if (App::isGuest()) : ?>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+        </ul>
 
-    <div class="container-fluid">
+      <?php else : ?>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <?php if (App::userHasRole(['admin'])) : ?>
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard">dashboard</a>
+            </li>
+          <?php endif; ?>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout"><?php echo App::$app->user->username ?> (Logout)</a>
+          </li>
+        </ul>
+      <?php endif; ?>
 
-      <?php if (App::$app->session->getMessage('success')): ?>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+
+    <?php if (App::$app->session->getMessage('success')) : ?>
       <div class="alert alert-success">
         <?php echo App::$app->session->getMessage('success') ?>
       </div>
-      <?php endif; ?>
+    <?php endif; ?>
 
-      <?php if (App::$app->session->getMessage('danger')): ?>
-        <div class="alert alert-danger" role="alert">
-          <?php echo App::$app->session->getMessage('danger') ?>
-        </div>
-      <?php endif; ?>
+    <?php if (App::$app->session->getMessage('danger')) : ?>
+      <div class="alert alert-danger" role="alert">
+        <?php echo App::$app->session->getMessage('danger') ?>
+      </div>
+    <?php endif; ?>
 
-      {{content}}
-    </div>
+    {{content}}
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
 </html>
