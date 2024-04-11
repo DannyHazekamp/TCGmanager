@@ -2,7 +2,7 @@
 
 namespace app\core;
 
-abstract class Model 
+abstract class Model
 {
     public const REQUIRED = 'required';
     public const VALID_EMAIL = 'email';
@@ -14,8 +14,8 @@ abstract class Model
 
     public function loadData($data)
     {
-        foreach($data as $key => $value) {
-            if(property_exists($this, $key)) {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
                 $this->{$key} = $value;
             }
         }
@@ -27,20 +27,20 @@ abstract class Model
 
     public array $errors = [];
 
-    public function validate() 
+    public function validate()
     {
-        foreach($this->rules() as $attribute => $rules) {
+        foreach ($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
-            foreach($rules as $rule) {
-                $ruleName = $rule; 
-                if(!is_string($ruleName)) {
+            foreach ($rules as $rule) {
+                $ruleName = $rule;
+                if (!is_string($ruleName)) {
                     $ruleName = $rule[0];
                 }
-                if($ruleName === self::REQUIRED && !$value) {
+                if ($ruleName === self::REQUIRED && !$value) {
                     $this->addErrorRule($attribute, self::REQUIRED);
                 }
 
-                if($ruleName === self::VALID_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                if ($ruleName === self::VALID_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $this->addErrorRule($attribute, self::VALID_EMAIL);
                 }
                 if ($ruleName === self::MIN && strlen($value) < $rule['min']) {
@@ -50,7 +50,7 @@ abstract class Model
                     $this->addErrorRule($attribute, self::MAX);
                 }
 
-                if($ruleName === self::UNIQUE) {    
+                if ($ruleName === self::UNIQUE) {
                     $className = $rule['class'];
                     $uniqueAttribute = $rule['attribute'] ?? $attribute;
                     $tableName = $className::tableName();
@@ -62,19 +62,18 @@ abstract class Model
                     $statement = App::$app->db->prepare($sql);
                     $statement->bindValue(":attribute", $value);
 
-                    if($excludeUser) {
+                    if ($excludeUser) {
                         $statement->bindValue(":user_id", $excludeUser);
                     }
 
                     $statement->execute();
                     $rec = $statement->fetchObject();
-                    
+
                     if ($rec) {
                         $this->addErrorRule($attribute, self::UNIQUE);
                     }
-
                 }
-                if($ruleName === self::MISMATCH) {
+                if ($ruleName === self::MISMATCH) {
                     $validRoleIDs = [1, 2, 3];
                     if (!in_array($value, $validRoleIDs)) {
                         $this->addErrorRule($attribute, self::MISMATCH);
@@ -97,7 +96,7 @@ abstract class Model
         $this->errors[$attribute][] = $message;
     }
 
-    public function errorMessages() 
+    public function errorMessages()
     {
         return [
             self::REQUIRED => 'This field is required',
@@ -109,7 +108,7 @@ abstract class Model
         ];
     }
 
-    public function hasError($attribute) 
+    public function hasError($attribute)
     {
         return $this->errors[$attribute] ?? false;
     }

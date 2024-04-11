@@ -5,7 +5,7 @@ namespace app\core;
 use app\core\exceptions\ForbiddenException;
 use app\core\exceptions\NotFoundException;
 
-class Router 
+class Router
 {
     public Request $request;
     public Response $response;
@@ -22,7 +22,7 @@ class Router
 
 
     public function get($path, $callback)
-    {   
+    {
         $this->routes['get'][$path] = $callback;
     }
 
@@ -36,7 +36,7 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->method();
 
-        if($path === '/' && App::isGuest()) {
+        if ($path === '/' && App::isGuest()) {
             $this->response->redirect('/login');
             return;
         }
@@ -49,14 +49,14 @@ class Router
 
             if (preg_match($pattern, $path, $matches)) {
                 array_shift($matches);
-                
+
                 $routeParams = [];
                 preg_match_all('/{(.*?)}/', $route, $routeParamsMatches);
                 $routeParamsNames = $routeParamsMatches[1];
                 for ($i = 0; $i < count($routeParamsNames); $i++) {
                     $routeParams[$routeParamsNames[$i]] = $matches[$i];
                 }
-                
+
                 $this->request->setRouteParams($routeParams);
 
                 if (is_string($callback)) {
@@ -80,7 +80,7 @@ class Router
             }
         }
 
-        throw new NotFoundException(); 
+        throw new NotFoundException();
     }
 
     public function render($view, $params = [])
@@ -97,23 +97,22 @@ class Router
         return str_replace('{{content}}', $viewContent, $content);
     }
 
-    protected function content() 
+    protected function content()
     {
         ob_start();
-        include_once App::$ROOT_DIRECTORY . "/views/layouts/main.php";; 
+        include_once App::$ROOT_DIRECTORY . "/views/layouts/main.php";;
         return ob_get_clean();
     }
 
-    protected function renderView($view, $params) 
+    protected function renderView($view, $params)
     {
-        foreach($params as $key => $value) {
+        foreach ($params as $key => $value) {
             $$key = $value;
         }
         $viewPath = str_replace('.', '/', $view);
 
         ob_start();
-        include_once App::$ROOT_DIRECTORY."/views/$viewPath.php"; 
+        include_once App::$ROOT_DIRECTORY . "/views/$viewPath.php";
         return ob_get_clean();
     }
-
 }

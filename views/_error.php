@@ -1,1 +1,1 @@
-<h4> <?php echo $exception->getCode() ?>  <?php echo $exception->getMessage() ?> </h4>
+<h1 class="display-5"> <?php echo $exception->getCode() ?> <?php echo $exception->getMessage() ?> </h1>

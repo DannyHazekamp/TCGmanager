@@ -14,11 +14,11 @@ A application with back-end framework created for a school project of the subjec
 ## User accounts
 These are the basic user accounts for the three roles the application has
 
-| Username    |        E-mail         | Password |     Role     |
-| ----------- | --------------------- | -------- | ------------ |
-| adminuser   | admin@gmail.com       | 123      | Admin        |
-| user        | user@gmail.com        | 123      | User         |
-| premiumuser | premiumuser@gmail.com | 123      | Premium user |
+| Username    |        E-mail         | Password    |     Role     |
+| ----------- | --------------------- | ----------- | ------------ |
+| adminuser   | admin@gmail.com       | 123456      | Admin        |
+| user        | user@gmail.com        | 123456      | User         |
+| premiumuser | premiumuser@gmail.com | 123456      | Premium user |
 
 ------
 ## Role permissions

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace app\models;
 
@@ -18,7 +18,7 @@ class Role extends DbModel
     {
         return 'role_id';
     }
-    
+
     public function rules(): array
     {
         return [];

@@ -21,11 +21,11 @@ class RoleMiddleware extends Middleware
         if (empty($this->roles)) {
             return;
         }
-    
+
         if (!App::isGuest() && App::userHasRole($this->roles)) {
             return;
         }
-    
+
         throw new ForbiddenException();
     }
 }

@@ -4,10 +4,10 @@ namespace app\core;
 
 use app\core\middlewares\Middleware;
 
-class Controller 
+class Controller
 {
     protected array $middlewares = [];
-    
+
 
     public function render($view, $params = [])
     {
@@ -37,5 +37,4 @@ class Controller
 
         return $this;
     }
-
 }

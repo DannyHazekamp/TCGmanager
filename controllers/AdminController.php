@@ -155,9 +155,9 @@ class AdminController extends Controller
 
         if ($request->is_method_post()) {
             $card->loadData($request->getBody());
-           
+
             if ($card->validate()) {
-                
+
                 $image = $request->getFile('image');
                 if ($image && $image['error'] === UPLOAD_ERR_OK) {
                     $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
@@ -166,7 +166,7 @@ class AdminController extends Controller
                 } else {
                     $card->image = '/img/placeholder.png';
                 }
-        
+
                 if ($card->save()) {
                     $session->setMessage('success', 'Card created successfully');
                     $response->redirect('/dashboard');
@@ -192,8 +192,8 @@ class AdminController extends Controller
 
         if ($request->is_method_post()) {
             $card->loadData($request->getBody());
-    
-            if($card->validate()) {
+
+            if ($card->validate()) {
                 $image = $request->getFile('image');
                 if ($image && $image['error'] === UPLOAD_ERR_OK) {
                     $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
@@ -209,7 +209,6 @@ class AdminController extends Controller
                     return;
                 }
             }
-           
         }
 
         return $this->render('admin.card.edit', [

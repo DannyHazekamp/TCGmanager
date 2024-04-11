@@ -1,27 +1,32 @@
-<h1>Create a deck</h1>
-<form action="" method="post">
-    <div class="form-group mb-2">
-        <label>Name</label>
-        <input type="text" name="name" value="<?php echo $deck->name ?>" class="form-control <?php echo $deck->hasError('name') ? 'is-invalid' : '' ?>" placeholder="Enter name">
-        <div class="invalid-feedback">
-          <?php echo $deck->getError('name') ?>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <h1 class="display-5 mb-4">Create a deck</h1>
+      <form action="" method="post">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" name="name" value="<?php echo $deck->name ?>" class="form-control <?php echo $deck->hasError('name') ? 'is-invalid' : '' ?>" id="name" placeholder="Enter name">
+          <div class="invalid-feedback">
+            <?php echo $deck->getError('name') ?>
+          </div>
         </div>
-    </div>
-    <div class="form-group mb-2">
-        <label>Description</label>
-        <textarea type="text" class="form-control <?php echo $deck->hasError('description') ? 'is-invalid' : '' ?>" name="description" placeholder="Enter description"><?php echo $deck->description ?></textarea>
-        <div class="invalid-feedback">
-          <?php echo $deck->getError('description') ?>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control <?php echo $deck->hasError('description') ? 'is-invalid' : '' ?>" name="description" id="description" rows="3" placeholder="Enter description"><?php echo $deck->description ?></textarea>
+          <div class="invalid-feedback">
+            <?php echo $deck->getError('description') ?>
+          </div>
         </div>
+        <div class="mb-3">
+          <label for="user" class="form-label">Users</label>
+          <select class="form-select" name="user_id" id="user" aria-label="Default select example">
+            <?php foreach ($users as $user) : ?>
+              <option value="<?php echo $user->user_id; ?>"><?php echo $user->username; ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
     </div>
-    <div class="form-group mb-2">
-    <label>Users</label>
-    <select class="form-select" name="user_id" aria-label="Default select example">
-      <?php foreach ($users as $user): ?>
-          <option value="<?php echo $user->user_id; ?>"><?php echo $user->username; ?></option>
-      <?php endforeach; ?>
-    </select>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
+</div>

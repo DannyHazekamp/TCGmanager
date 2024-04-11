@@ -33,11 +33,20 @@ class User extends DbModel
         return parent::save();
     }
 
+    public function update()
+    {
+        if (!empty($this->password)) {
+            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        }
+
+        return parent::update();
+    }
+
     public function rules(): array
     {
         return [
             'username' => [self::REQUIRED, [self::MAX, 'max' => 255]],
-            'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class, 'exclude' => $this->user_id ], [self::MAX, 'max' => 254]],
+            'email' => [self::REQUIRED, self::VALID_EMAIL, [self::UNIQUE, 'class' => self::class, 'exclude' => $this->user_id], [self::MAX, 'max' => 254]],
             'password' => [self::REQUIRED, [self::MIN, 'min' => 6]],
             'role_id' => [self::REQUIRED, self::MISMATCH]
         ];
@@ -53,7 +62,7 @@ class User extends DbModel
         if (!is_array($roleNames)) {
             $roleNames = [$roleNames];
         }
-     
+
         foreach ($roleNames as $roleName) {
             $role = $this->role();
 
@@ -74,5 +83,4 @@ class User extends DbModel
     {
         return $this->hasMany(Deck::class, 'user_id');
     }
-
 }

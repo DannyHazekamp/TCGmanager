@@ -2,7 +2,7 @@
 
 namespace app\core;
 
-abstract class DbModel extends Model 
+abstract class DbModel extends Model
 {
     abstract public static function tableName(): string;
 
@@ -12,15 +12,14 @@ abstract class DbModel extends Model
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
-        $params = array_map(fn($attr) => ":$attr", $attributes);
-        $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).") VALUES(".implode(',', $params).") ");
+        $params = array_map(fn ($attr) => ":$attr", $attributes);
+        $statement = self::prepare("INSERT INTO $tableName (" . implode(',', $attributes) . ") VALUES(" . implode(',', $params) . ") ");
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
 
         $statement->execute();
         return true;
-
     }
 
     public function update()
@@ -33,7 +32,7 @@ abstract class DbModel extends Model
             return isset($this->{$attribute});
         });
 
-        $params = array_map(fn($attr) => "$attr = :$attr", $changedAttributes);
+        $params = array_map(fn ($attr) => "$attr = :$attr", $changedAttributes);
         $sql = implode(', ', $params);
 
         $statement = self::prepare("UPDATE $tableName SET $sql WHERE $primaryKey = :id");
@@ -91,17 +90,17 @@ abstract class DbModel extends Model
         return true;
     }
 
-    public static function findOne($where) 
+    public static function findOne($where)
     {
         $tableName = static::tableName();
         $attributes = array_keys($where);
-        $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $sql = implode(" AND ", array_map(fn ($attr) => "$attr = :$attr", $attributes));
         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
-        foreach ($where as $key => $item){
+        foreach ($where as $key => $item) {
             $statement->bindValue(":$key", $item);
         }
 
-        $statement->execute(); 
+        $statement->execute();
         return $statement->fetchObject(static::class);
     }
 
@@ -110,9 +109,9 @@ abstract class DbModel extends Model
         $tableName = static::tableName();
         $sql = "SELECT * FROM $tableName";
 
-        if(!empty($where)) {
+        if (!empty($where)) {
             $attributes = array_keys($where);
-            $conditions = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+            $conditions = implode(" AND ", array_map(fn ($attr) => "$attr = :$attr", $attributes));
             $sql .= " WHERE $conditions";
         }
         $statement = self::prepare($sql);
@@ -121,7 +120,7 @@ abstract class DbModel extends Model
             $statement->bindValue(":$key", $value);
         }
 
-        $statement->execute(); 
+        $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
@@ -130,9 +129,9 @@ abstract class DbModel extends Model
         $tableName = static::tableName();
         $sql = "SELECT * FROM $tableName";
 
-        if(!empty($where)) {
+        if (!empty($where)) {
             $attributes = array_keys($where);
-            $conditions = implode(" AND ", array_map(fn($attr) => "$attr LIKE :$attr", $attributes));
+            $conditions = implode(" AND ", array_map(fn ($attr) => "$attr LIKE :$attr", $attributes));
             $sql .= " WHERE $conditions";
         }
         $statement = self::prepare($sql);
@@ -140,8 +139,8 @@ abstract class DbModel extends Model
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", "%$value%");
         }
-        
-        $statement->execute(); 
+
+        $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
@@ -174,7 +173,7 @@ abstract class DbModel extends Model
         return $statement->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
-    public static function prepare($sql) 
+    public static function prepare($sql)
     {
         return App::$app->db->pdo->prepare($sql);
     }

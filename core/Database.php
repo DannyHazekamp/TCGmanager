@@ -8,21 +8,22 @@ class Database
 
     public function __construct()
     {
-        // Het pad naar het .env bestand instellen
+        // Sets the path to the .env file
         $dotenvPath = '../.env';
 
-        // Controleer of het .env bestand bestaat
+        // Checks if the .env file exists
         if (file_exists($dotenvPath)) {
-            // Laad de inhoud van het .env bestand
+
+            // Loads the content of the .env file
             $envVariables = parse_ini_file($dotenvPath);
 
-            // Maak de databaseverbinding aan op basis van de .env variabelen
+            // Makes the database connection with the .env variables
             $database = sprintf(
                 'sqlite:%s',
                 $envVariables['DB_DATABASE']
             );
 
-            // Maak een PDO-object aan voor de SQLite-database
+            // Makes a PDO object for the SQLite-database
             $this->pdo = new \PDO($database);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } else {
@@ -30,7 +31,8 @@ class Database
         }
     }
 
-    public function prepare($sql) {
+    public function prepare($sql)
+    {
         return $this->pdo->prepare($sql);
     }
 }

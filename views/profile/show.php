@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6 text-center">
-    <h1>Profile</h1>
+    <h1 class="display-5">Profile</h1>
     <div class="card">
       <div class="card-body overflow-hidden">
         <h5 class="card-title"> <strong>Username:</strong> <span class="text-truncate truncate-size"><?php echo $user->username; ?></span></h5>
@@ -10,8 +10,10 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6 text-center">
-    <h1>My decks</h1>
+  <div class="col-md-6 text-center align-self-center">
+    <h1 class="mb-4 display-5">My decks
+      <?php if ($user->hasRole('premium_user', 'admin')) : ?> <a href="/decks" class="btn btn-primary">Create</a> <?php endif; ?>
+    </h1>
 
     <?php if ($user->hasRole('premium_user')) : ?>
       <form action="/profile/unsubscribe" method="post">
@@ -20,18 +22,17 @@
     <?php endif; ?>
 
     <?php if ($user->hasRole(['premium_user', 'admin'])) : ?>
-      <a href="/decks" class="btn btn-primary">Create</a>
-      <table class="table">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col"></th>
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
           <?php foreach ($user->decks() as $deck) : ?>
             <tr>
               <td><?php echo $deck->deck_id ?></td>

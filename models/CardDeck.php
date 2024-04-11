@@ -24,7 +24,7 @@ class CardDeck extends DbModel
         return [
             'card_id' => [self::REQUIRED],
             'deck_id' => [self::REQUIRED]
-            
+
         ];
     }
 
@@ -33,12 +33,12 @@ class CardDeck extends DbModel
         return ['card_id', 'deck_id'];
     }
 
-    public function card() 
+    public function card()
     {
         return $this->belongsTo(Card::class, 'card_id');
     }
 
-    public function deck() 
+    public function deck()
     {
         return $this->belongsTo(Deck::class, 'deck_id');
     }

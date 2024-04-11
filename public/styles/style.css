@@ -1,3 +1,7 @@
 .truncate-size {
     max-width: 150px;
 }
+
+.deck-button {
+    white-space: normal;
+}

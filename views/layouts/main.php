@@ -19,48 +19,51 @@ $user = App::$app->user;
   <title>Tcg manager</title>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">TCG</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<body class="bg-light bg-gradient">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-75 mb-2">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">TCG</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="text-center collapse navbar-collapse" id="navbarSupportedContent">
-      <?php if (App::isGuest()) : ?>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">Register</a>
-          </li>
-        </ul>
-
-      <?php else : ?>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <?php if (App::userHasRole(['admin'])) : ?>
-            <li class="nav-item">
-              <a class="nav-link" href="/dashboard">dashboard</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <?php if (App::isGuest()) : ?>
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/login">Login</a>
             </li>
-          <?php endif; ?>
-          <li class="nav-item">
-            <a class="nav-link" href="/profile">profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-truncate truncate-size"><?php echo App::$app->user->username ?></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
-          </li>
-        </ul>
-      <?php endif; ?>
-
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register</a>
+            </li>
+          </ul>
+        <?php else : ?>
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link text-white" href="/">Home</a>
+            </li>
+            <?php if (App::userHasRole(['admin'])) : ?>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/dashboard">Dashboard</a>
+              </li>
+            <?php endif; ?>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/profile">Profile</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link text-white text-truncate truncate-size" href="/profile"><?php echo App::$app->user->username ?></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/logout">Logout</a>
+            </li>
+          </ul>
+        <?php endif; ?>
+      </div>
     </div>
   </nav>
+
 
   <div class="container-fluid">
 

@@ -17,7 +17,7 @@ class HomeController extends Controller
 
     public function home()
     {
-        
+
         $cards = Card::findAll();
 
         return $this->render('home', [

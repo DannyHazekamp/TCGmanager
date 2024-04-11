@@ -5,7 +5,7 @@ namespace app\models;
 use app\core\App;
 use app\core\Model;
 
-class LoginModel extends Model 
+class LoginModel extends Model
 {
     public string $email;
     public string $password;
@@ -27,11 +27,11 @@ class LoginModel extends Model
     public function login()
     {
         $user = (new User())->findOne(['email' => $this->email]);
-        if(!$user) {
+        if (!$user) {
             $this->addError('email', 'A user with this email and password combination does not exist');
             return false;
-        } 
-        if(!password_verify($this->password, $user->password)) {
+        }
+        if (!password_verify($this->password, $user->password)) {
             $this->addError('password', 'A user with this email and password combination does not exist');
             return false;
         }

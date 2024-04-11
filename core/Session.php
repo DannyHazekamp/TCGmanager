@@ -4,11 +4,11 @@ namespace app\core;
 
 
 
-class Session 
+class Session
 {
     protected const MESSAGE_KEY = 'messages';
 
-    public function __construct() 
+    public function __construct()
     {
         session_start();
         $messages = $_SESSION[self::MESSAGE_KEY] ?? [];
@@ -19,7 +19,7 @@ class Session
         $_SESSION[self::MESSAGE_KEY] = $messages;
     }
 
-    public function set($key, $value) 
+    public function set($key, $value)
     {
         $_SESSION[$key] = $value;
     }
@@ -58,5 +58,4 @@ class Session
 
         $_SESSION[self::MESSAGE_KEY] = $messages;
     }
-
 }

@@ -4,7 +4,7 @@ namespace app\core;
 
 use app\models\User;
 
-class App 
+class App
 {
     public static string $ROOT_DIRECTORY;
     public static App $app;
@@ -32,7 +32,7 @@ class App
         $this->db = new Database();
 
         $userValue = $this->session->get('user');
-        if($userValue) {
+        if ($userValue) {
             $userId = $this->userClass::primaryKey();
             $this->user = $this->userClass::findOne([$userId => $userValue]);
         } else {
@@ -42,7 +42,7 @@ class App
 
     public function run()
     {
-        try{
+        try {
             echo $this->router->resolve();
         } catch (\Exception $e) {
             $this->response->setStatus($e->getCode());
