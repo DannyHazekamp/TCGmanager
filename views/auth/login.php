@@ -5,16 +5,16 @@
       <form action="" method="post">
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
-          <input type="email" name="email" value="<?php echo $model->email ?>" class="form-control <?php echo $model->hasError('email') ? 'is-invalid' : '' ?>" id="email" placeholder="Enter email">
+          <input type="email" name="email" value="<?php echo $loginModel->email ?>" class="form-control <?php echo $loginModel->hasError('email') ? 'is-invalid' : '' ?>" id="email" placeholder="Enter email">
           <div class="invalid-feedback">
-            <?php echo $model->getError('email') ?>
+            <?php echo $loginModel->getError('email') ?>
           </div>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" name="password" value="<?php echo $model->password ?>" class="form-control <?php echo $model->hasError('password') ? 'is-invalid' : '' ?>" id="password" placeholder="Password">
+          <input type="password" name="password" value="<?php echo $loginModel->password ?>" class="form-control <?php echo $loginModel->hasError('password') ? 'is-invalid' : '' ?>" id="password" placeholder="Password">
           <div class="invalid-feedback">
-            <?php echo $model->getError('password') ?>
+            <?php echo $loginModel->getError('password') ?>
           </div>
         </div>
         <div class="row g-1">

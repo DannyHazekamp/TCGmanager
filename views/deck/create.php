@@ -5,16 +5,16 @@
             <form action="" method="post">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" name="name" value="<?php echo $model->name ?>" class="form-control <?php echo $model->hasError('name') ? 'is-invalid' : '' ?>" id="name" placeholder="Enter name">
+                    <input type="text" name="name" value="<?php echo $deck->name ?>" class="form-control <?php echo $deck->hasError('name') ? 'is-invalid' : '' ?>" id="name" placeholder="Enter name">
                     <div class="invalid-feedback">
-                        <?php echo $model->getError('name') ?>
+                        <?php echo $deck->getError('name') ?>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control <?php echo $model->hasError('description') ? 'is-invalid' : '' ?>" name="description" id="description" rows="3" placeholder="Enter description"><?php echo $model->description ?></textarea>
+                    <textarea class="form-control <?php echo $deck->hasError('description') ? 'is-invalid' : '' ?>" name="description" id="description" rows="3" placeholder="Enter description"><?php echo $deck->description ?></textarea>
                     <div class="invalid-feedback">
-                        <?php echo $model->getError('description') ?>
+                        <?php echo $deck->getError('description') ?>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

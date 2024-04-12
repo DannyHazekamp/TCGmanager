@@ -5,24 +5,24 @@
       <form action="" method="post" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input type="text" name="name" value="<?php echo $model->name ?>" class="form-control <?php echo $model->hasError('name') ? 'is-invalid' : '' ?>" id="name" placeholder="Enter name">
+          <input type="text" name="name" value="<?php echo $card->name ?>" class="form-control <?php echo $card->hasError('name') ? 'is-invalid' : '' ?>" id="name" placeholder="Enter name">
           <div class="invalid-feedback">
-            <?php echo $model->getError('name') ?>
+            <?php echo $card->getError('name') ?>
           </div>
         </div>
         <div class="row mb-3">
           <div class="col-sm-6">
             <label for="attack" class="form-label">Attack power</label>
-            <input type="number" min="1" max="1000" name="attack" value="<?php echo $model->attack ?>" class="form-control <?php echo $model->hasError('attack') ? 'is-invalid' : '' ?>" id="attack" placeholder="Enter attack power" required>
+            <input type="number" min="1" max="1000" name="attack" value="<?php echo $card->attack ?>" class="form-control <?php echo $card->hasError('attack') ? 'is-invalid' : '' ?>" id="attack" placeholder="Enter attack power" required>
             <div class="invalid-feedback">
-              <?php echo $model->getError('attack') ?>
+              <?php echo $card->getError('attack') ?>
             </div>
           </div>
           <div class="col-sm-6">
             <label for="defense" class="form-label">Defense</label>
-            <input type="number" min="1" max="1000" name="defense" value="<?php echo $model->defense ?>" class="form-control <?php echo $model->hasError('defense') ? 'is-invalid' : '' ?>" id="defense" placeholder="Enter defensive power" required>
+            <input type="number" min="1" max="1000" name="defense" value="<?php echo $card->defense ?>" class="form-control <?php echo $card->hasError('defense') ? 'is-invalid' : '' ?>" id="defense" placeholder="Enter defensive power" required>
             <div class="invalid-feedback">
-              <?php echo $model->getError('defense') ?>
+              <?php echo $card->getError('defense') ?>
             </div>
           </div>
         </div>
@@ -30,14 +30,14 @@
         <div class="row mb-3">
           <div class="col-sm-4">
             <label for="rarity" class="form-label">Rarity</label>
-            <select name="rarity" class="form-control <?php echo $model->hasError('rarity') ? 'is-invalid' : '' ?>" id="rarity">
+            <select name="rarity" class="form-control <?php echo $card->hasError('rarity') ? 'is-invalid' : '' ?>" id="rarity">
               <option value="Common">Common</option>
               <option value="Rare">Rare</option>
               <option value="Epic">Epic</option>
               <option value="Legendary">Legendary</option>
             </select>
             <div class="invalid-feedback">
-              <?php echo $model->getError('rarity') ?>
+              <?php echo $card->getError('rarity') ?>
             </div>
           </div>
           <div class="col-sm-4">
@@ -52,9 +52,9 @@
             <label for="price" class="form-label">Price</label>
             <div class="input-group">
               <span class="input-group-text">€</span>
-              <input type="number" step=".01" min="0.01" max="100000" name="price" value="<?php echo $model->price ?>" class="form-control <?php echo $model->hasError('price') ? 'is-invalid' : '' ?>" id="price" placeholder="Enter the price" required>
+              <input type="number" step=".01" min="0.01" max="100000" name="price" value="<?php echo $card->price ?>" class="form-control <?php echo $card->hasError('price') ? 'is-invalid' : '' ?>" id="price" placeholder="Enter the price" required>
               <div class="invalid-feedback">
-                <?php echo $model->getError('price') ?>
+                <?php echo $card->getError('price') ?>
               </div>
             </div>
           </div>

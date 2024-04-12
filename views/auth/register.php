@@ -5,23 +5,23 @@
       <form action="" method="post">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
-          <input type="text" name="username" value="<?php echo $model->username ?>" class="form-control <?php echo $model->hasError('username') ? 'is-invalid' : '' ?>" id="username" placeholder="Enter username">
+          <input type="text" name="username" value="<?php echo $user->username ?>" class="form-control <?php echo $user->hasError('username') ? 'is-invalid' : '' ?>" id="username" placeholder="Enter username">
           <div class="invalid-feedback">
-            <?php echo $model->getError('username') ?>
+            <?php echo $user->getError('username') ?>
           </div>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
-          <input type="email" name="email" value="<?php echo $model->email ?>" class="form-control <?php echo $model->hasError('email') ? 'is-invalid' : '' ?>" id="email" placeholder="Enter email">
+          <input type="email" name="email" value="<?php echo $user->email ?>" class="form-control <?php echo $user->hasError('email') ? 'is-invalid' : '' ?>" id="email" placeholder="Enter email">
           <div class="invalid-feedback">
-            <?php echo $model->getError('email') ?>
+            <?php echo $user->getError('email') ?>
           </div>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" name="password" value="<?php echo $model->password ?>" class="form-control <?php echo $model->hasError('password') ? 'is-invalid' : '' ?>" id="password" placeholder="Password">
+          <input type="password" name="password" value="<?php echo $user->password ?>" class="form-control <?php echo $user->hasError('password') ? 'is-invalid' : '' ?>" id="password" placeholder="Password">
           <div class="invalid-feedback">
-            <?php echo $model->getError('password') ?>
+            <?php echo $user->getError('password') ?>
           </div>
         </div>
         <div class="row g-1">

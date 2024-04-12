@@ -32,13 +32,14 @@ class AuthController extends Controller
             if ($user->validate() && $user->save()) {
                 $session->setMessage('success', 'Successfully registered');
                 $response->redirect('/login');
+                return;
             }
             return $this->render('auth.register', [
-                'model' => $user
+                'user' => $user
             ]);
         }
         return $this->render('auth.register', [
-            'model' => $user
+            'user' => $user
         ]);
     }
 
@@ -54,10 +55,11 @@ class AuthController extends Controller
             if ($loginModel->validate() && $loginModel->login()) {
                 $session->setMessage('success', 'Logged in, welcome!');
                 $response->redirect('/');
+                return;
             }
         }
         return $this->render('auth.login', [
-            'model' => $loginModel
+            'loginModel' => $loginModel
         ]);
     }
 
@@ -66,5 +68,6 @@ class AuthController extends Controller
         App::$app->logout();
         $session->setMessage('danger', 'Logged out');
         $response->redirect('/login');
+        return;
     }
 }

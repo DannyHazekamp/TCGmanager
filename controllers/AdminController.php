@@ -69,12 +69,12 @@ class AdminController extends Controller
             }
 
             return $this->render('admin.set.create', [
-                'model' => $set
+                'set' => $set
             ]);
         }
 
         return $this->render('admin.set.create', [
-            'model' => $set
+            'set' => $set
         ]);
     }
 
@@ -176,7 +176,7 @@ class AdminController extends Controller
         }
 
         return $this->render('admin.card.create', [
-            'model' => $card,
+            'card' => $card,
             'sets' => $sets
         ]);
     }
@@ -337,14 +337,14 @@ class AdminController extends Controller
             }
 
             return $this->render('admin.deck.show', [
-                'model' => $cardDeck,
+                'cardDeck' => $cardDeck,
                 'cards' => $cards,
                 'deck' => $deck
             ]);
         }
 
         return $this->render('admin.deck.show', [
-            'model' => $cardDeck,
+            'cardDeck' => $cardDeck,
             'cards' => $cards,
             'deck' => $deck
         ]);
@@ -369,10 +369,6 @@ class AdminController extends Controller
 
     public function editDeck(Request $request, Response $response, Session $session)
     {
-        if (App::isGuest()) {
-            $response->redirect('/');
-            return;
-        }
 
         $params = $request->getRouteParams();
         $deck_id = $params['id'];

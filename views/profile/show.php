@@ -12,7 +12,7 @@
   </div>
   <div class="col-md-6 text-center align-self-center">
     <h1 class="mb-4 display-5">My decks
-      <?php if ($user->hasRole('premium_user', 'admin')) : ?> <a href="/decks" class="btn btn-primary">Create</a> <?php endif; ?>
+      <?php if ($user->hasRole(['premium_user', 'admin'])) : ?> <a href="/decks" class="btn btn-primary">Create</a> <?php endif; ?>
     </h1>
 
     <?php if ($user->hasRole('premium_user')) : ?>

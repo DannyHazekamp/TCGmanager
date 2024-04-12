@@ -16,7 +16,7 @@ class ProfileController extends Controller
         $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
     }
 
-    public function show(Request $request, Response $response)
+    public function show()
     {
 
         $user = App::$app->user;
@@ -40,6 +40,7 @@ class ProfileController extends Controller
                 $response->redirect('/profile', [
                     'user' => $user
                 ]);
+                return;
             }
 
             return $this->render('profile.edit', [

@@ -21,12 +21,6 @@ class DeckController extends Controller
 
     public function create(Request $request, Response $response, Session $session)
     {
-        if (App::isGuest()) {
-            $response->redirect('/');
-            return;
-        }
-
-
         $deck = new Deck();
 
         $deck->name = '';
@@ -42,16 +36,16 @@ class DeckController extends Controller
             }
 
             return $this->render('deck.create', [
-                'model' => $deck
+                'deck' => $deck
             ]);
         }
 
         return $this->render('deck.create', [
-            'model' => $deck
+            'deck' => $deck
         ]);
     }
 
-    public function showDeck(Request $request, Response $response)
+    public function showDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
         $deck_id = $params['id'];
@@ -70,6 +64,7 @@ class DeckController extends Controller
             $cardDupes = $deck->countCards($cardDeck->card_id);
 
             if ($cardDupes >= 2 || $cardsInDeck >= 30) {
+                $session->setMessage('danger', 'Limit reached (2 copies per card/30 cards per deck)');
                 $response->redirect("/decks/{$deck_id}");
                 return;
             } else {
@@ -80,14 +75,14 @@ class DeckController extends Controller
             }
 
             return $this->render('deck.show', [
-                'model' => $cardDeck,
+                'cardDeck' => $cardDeck,
                 'cards' => $cards,
                 'deck' => $deck
             ]);
         }
 
         return $this->render('deck.show', [
-            'model' => $cardDeck,
+            'cardDeck' => $cardDeck,
             'cards' => $cards,
             'deck' => $deck
         ]);
@@ -112,11 +107,6 @@ class DeckController extends Controller
 
     public function editDeck(Request $request, Response $response, Session $session)
     {
-        if (App::isGuest()) {
-            $response->redirect('/');
-            return;
-        }
-
         $params = $request->getRouteParams();
         $deck_id = $params['id'];
 
@@ -151,6 +141,7 @@ class DeckController extends Controller
             if ($deck->deleteRelated()) {
                 $session->setMessage('danger', 'Deck deleted successfully');
                 $response->redirect('/profile');
+                return;
             }
         }
     }
