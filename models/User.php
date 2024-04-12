@@ -33,15 +33,6 @@ class User extends DbModel
         return parent::save();
     }
 
-    public function update()
-    {
-        if (!empty($this->password)) {
-            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
-        }
-
-        return parent::update();
-    }
-
     public function rules(): array
     {
         return [

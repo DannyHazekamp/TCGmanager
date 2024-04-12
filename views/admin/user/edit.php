@@ -18,13 +18,6 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" name="password" value="<?php echo htmlspecialchars($user->password, ENT_QUOTES, 'UTF-8') ?>" class="form-control <?php echo $user->hasError('password') ? 'is-invalid' : '' ?>" id="password" placeholder="Password">
-          <div class="invalid-feedback">
-            <?php echo $user->getError('password') ?>
-          </div>
-        </div>
-        <div class="mb-3">
           <label for="role" class="form-label">Role</label>
           <select name="role_id" class="form-control <?php echo $user->hasError('role_id') ? 'is-invalid' : '' ?>" id="role">
             <?php foreach ($roles as $role) : ?>
