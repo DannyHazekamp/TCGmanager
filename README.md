@@ -27,7 +27,10 @@ Each role has different permissions on the application (Managing in the context 
 |     Role     |     Permissions                                                                                                                        | 
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Admin        | Admins are superusers on the application and can manage everything. They can manage users, cards, decks and sets                       |     
-| User         | Users can search and view cards, and they can edit their profile. They also have the option to subscribe to premium                    |     
+| User         | Users can search and view cards/sets, and they can edit their profile. They also have the option to subscribe to premium               |     
 | Premium user | Premium users can do everything regular users can do with the bonus of being able to manage decks and add/remove cards to their decks. |     
 
+## Roles disclaimer
+If the roles for some reason are missing use the following query on the sqlite webtech.db table:
 
+INSERT INTO roles (role_id, name) VALUES (1, 'admin'), (2, 'user'), (3, 'premium_user'); 

@@ -20,6 +20,11 @@ class AuthController extends Controller
 
     public function register(Request $request, Response $response, Session $session)
     {
+        if (!App::isGuest()) {
+            $response->redirect('/');
+            return;
+        }
+
         $user = new User();
         $user->username = '';
         $user->email = '';
@@ -45,6 +50,11 @@ class AuthController extends Controller
 
     public function login(Request $request, Response $response, Session $session)
     {
+        if (!App::isGuest()) {
+            $response->redirect('/');
+            return;
+        }
+
         $loginModel = new LoginModel();
 
         $loginModel->email = '';
