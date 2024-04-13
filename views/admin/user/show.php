@@ -26,7 +26,7 @@
   </div>
 
   <div class="col-md-6 text-center align-self-center">
-    <h1 class="mb-4 display-5">My decks <a href="/dashboard/decks/profile/<?php echo $user->user_id ?>" class="btn btn-primary">Create</a></h1>
+    <h1 class="mb-4 display-5">Decks of this user <a href="/dashboard/decks/profile/<?php echo $user->user_id ?>" class="btn btn-primary">Create</a></h1>
 
     <table class="table table-striped table-hover">
       <thead>

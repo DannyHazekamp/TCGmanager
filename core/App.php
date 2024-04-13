@@ -31,6 +31,7 @@ class App
 
         $this->db = new Database();
 
+        // checks if a user is logged in already
         $userValue = $this->session->get('user');
         if ($userValue) {
             $userId = $this->userClass::primaryKey();
@@ -40,6 +41,7 @@ class App
         }
     }
 
+    // Makes the app run with the routing
     public function run()
     {
         try {
@@ -52,6 +54,7 @@ class App
         }
     }
 
+    // manages login and sets the user in the session
     public function login(DbModel $user)
     {
         $this->user = $user;
@@ -61,22 +64,26 @@ class App
         return true;
     }
 
+    // manages logout and deletes the user from the session
     public function logout()
     {
         $this->user = null;
         $this->session->delete('user');
     }
 
+    // checks if the user is logged in
     public static function isGuest()
     {
         return !self::$app->user;
     }
 
+    // returns the logged in user
     public static function getUser(): ?User
     {
         return self::$app->user;
     }
 
+    // checks if the user has a specific role (used in RoleMiddleware)
     public static function userHasRole(array $roles): bool
     {
         return !self::isGuest() && self::getUser()->hasRole($roles);

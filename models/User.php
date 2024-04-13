@@ -14,16 +14,19 @@ class User extends DbModel
     public int $role_id;
 
 
+    // table name of the user model
     public static function tableName(): string
     {
         return 'users';
     }
 
+    // primary key of the user model
     public static function primaryKey(): string
     {
         return 'user_id';
     }
 
+    // hashes the password and saves (registers) the user
     public function save()
     {
         if (!empty($this->password)) {
@@ -33,6 +36,7 @@ class User extends DbModel
         return parent::save();
     }
 
+    // defines the rules for the user attributes
     public function rules(): array
     {
         return [
@@ -43,11 +47,13 @@ class User extends DbModel
         ];
     }
 
+    // defines the attributes for the user model
     public function attributes(): array
     {
         return ['username', 'email', 'password', 'role_id'];
     }
 
+    // checks if the user has a role
     public function hasRole($roleNames): bool
     {
         if (!is_array($roleNames)) {
@@ -65,11 +71,13 @@ class User extends DbModel
         return false;
     }
 
+    // a user has a role
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+    // a user has many decks
     public function decks()
     {
         return $this->hasMany(Deck::class, 'user_id');

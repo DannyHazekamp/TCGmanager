@@ -8,6 +8,7 @@ abstract class DbModel extends Model
 
     abstract public function attributes(): array;
 
+    // saves a object to the database
     public function save()
     {
         $tableName = $this->tableName();
@@ -22,6 +23,7 @@ abstract class DbModel extends Model
         return true;
     }
 
+    // updates a object in the database
     public function update()
     {
         $tableName = $this->tableName();
@@ -47,6 +49,7 @@ abstract class DbModel extends Model
         return true;
     }
 
+    // deletes a object from the database
     public function delete()
     {
         $tableName = $this->tableName();
@@ -60,6 +63,7 @@ abstract class DbModel extends Model
         return true;
     }
 
+    // deletes everything related to a object from the database
     public function deleteRelations($tableName)
     {
         $primaryKey = $this->primaryKey();
@@ -72,24 +76,7 @@ abstract class DbModel extends Model
         return true;
     }
 
-    public function addManyToMany()
-    {
-        $tableName = $this->tableName();
-        $attributes = $this->attributes();
-        $columns = implode(', ', $attributes);
-        $params = ':' . implode(', :', $attributes);
-
-        $sql = "INSERT INTO $tableName ($columns) VALUES ($params)";
-        $statement = self::prepare($sql);
-
-        foreach ($attributes as $attribute) {
-            $statement->bindValue(":$attribute", $this->{$attribute});
-        }
-
-        $statement->execute();
-        return true;
-    }
-
+    // finds a single object from the database
     public static function findOne($where)
     {
         $tableName = static::tableName();
@@ -104,6 +91,7 @@ abstract class DbModel extends Model
         return $statement->fetchObject(static::class);
     }
 
+    // gets all objects of the specified model from the database
     public static function findAll($where = [])
     {
         $tableName = static::tableName();
@@ -124,6 +112,7 @@ abstract class DbModel extends Model
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
+    // used to search for objects in the database
     public static function searchAll($where = [])
     {
         $tableName = static::tableName();
@@ -144,6 +133,7 @@ abstract class DbModel extends Model
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
+    // returns the object that belongs to the specified model
     public function belongsTo($class, $foreignKey)
     {
         $tableName = $class::tableName();
@@ -156,6 +146,7 @@ abstract class DbModel extends Model
         return $class::findOne([$relatedPrimaryKey => $foreignKeyValue]);
     }
 
+    // returns all objects that belong to the specified model
     public function hasMany($class, $foreignKey)
     {
         $tableName = $class::tableName();

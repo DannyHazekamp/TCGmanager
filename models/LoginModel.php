@@ -11,11 +11,13 @@ class LoginModel extends Model
     public string $password;
 
 
+    // primary key of the login model
     public static function primaryKey(): string
     {
         return 'user_id';
     }
 
+    // defines the rules for login
     public function rules(): array
     {
         return [
@@ -24,6 +26,7 @@ class LoginModel extends Model
         ];
     }
 
+    // a function to login a user with custom errors
     public function login()
     {
         $user = (new User())->findOne(['email' => $this->email]);

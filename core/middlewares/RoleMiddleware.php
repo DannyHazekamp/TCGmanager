@@ -14,6 +14,7 @@ class RoleMiddleware extends Middleware
         $this->roles = $roles;
     }
 
+    // checks if user has a specific role
     public function execute()
     {
 

@@ -11,11 +11,13 @@ use app\core\middlewares\RoleMiddleware;
 
 class ProfileController extends Controller
 {
+    // registers middleware for all roles
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
     }
 
+    // profile show
     public function show()
     {
 
@@ -27,6 +29,7 @@ class ProfileController extends Controller
     }
 
 
+    // profile edit
     public function edit(Request $request, Response $response, Session $session)
     {
 
@@ -53,6 +56,7 @@ class ProfileController extends Controller
         ]);
     }
 
+    // subscribe to premium for users
     public function subscribe(Request $request, Response $response, Session $session)
     {
         $user = App::$app->user;
@@ -78,6 +82,7 @@ class ProfileController extends Controller
         }
     }
 
+    // unsubscribe from premium for premium users
     public function unsubscribe(Request $request, Response $response, Session $session)
     {
         $user = App::$app->user;

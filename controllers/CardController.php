@@ -9,11 +9,13 @@ use app\core\middlewares\RoleMiddleware;
 
 class CardController extends Controller
 {
+    // registers middleware for all roles
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
     }
 
+    // card show
     public function show(Request $request)
     {
         $params = $request->getRouteParams();

@@ -9,11 +9,13 @@ use app\models\Set;
 
 class SetController extends Controller
 {
+    // registers the middleware for all roles
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
     }
 
+    // set show
     public function show(Request $request)
     {
         $params = $request->getRouteParams();

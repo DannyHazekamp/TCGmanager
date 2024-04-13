@@ -10,11 +10,13 @@ use app\core\middlewares\RoleMiddleware;
 
 class HomeController extends Controller
 {
+    // registers middleware for all roles
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware(['user', 'premium_user', 'admin']));
     }
 
+    // home page
     public function home()
     {
 
@@ -25,6 +27,7 @@ class HomeController extends Controller
         ]);
     }
 
+    // makes search for cards possible on the home page
     public function search(Request $request, Response $response)
     {
         if ($request->is_method_get()) {

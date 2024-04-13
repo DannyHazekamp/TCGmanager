@@ -6,6 +6,7 @@ class Request
 {
     private array $routeParams = [];
 
+    // gets the current path
     public function getPath()
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -16,21 +17,25 @@ class Request
         return $path;
     }
 
+    // returns the http method of the request
     public function method()
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
+    // checks if the request method is GET
     public function is_method_get()
     {
         return $this->method() === 'get';
     }
 
+    // checks if the request method is POST
     public function is_method_post()
     {
         return $this->method() === 'post';
     }
 
+    // gets input data from the request body
     public function getBody()
     {
         $body = [];
@@ -50,6 +55,7 @@ class Request
         return $body;
     }
 
+    // checks to see if a file was uploaded
     public function getFile($name)
     {
         if (isset($_FILES[$name])) {
@@ -58,19 +64,16 @@ class Request
         return null;
     }
 
+    // sets route parameters
     public function setRouteParams($params)
     {
         $this->routeParams = $params;
         return $this;
     }
 
+    // gets route parameters
     public function getRouteParams()
     {
         return $this->routeParams;
-    }
-
-    public function getRouteParam($param, $default = null)
-    {
-        return $this->routeParams[$param] ?? $default;
     }
 }

@@ -20,11 +20,13 @@ use app\core\middlewares\RoleMiddleware;
 class AdminController extends Controller
 {
 
+    // registers middleware for admin role
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware(['admin']));
     }
 
+    // dashboard show
     public function dashboard()
     {
         $currentUser = App::$app->user;
@@ -42,6 +44,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // set show
     public function showSet(Request $request)
     {
         $params = $request->getRouteParams();
@@ -54,6 +57,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // set create
     public function createSet(Request $request, Response $response, Session $session)
     {
         $set = new Set();
@@ -78,6 +82,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // set update
     public function updateSet(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -103,6 +108,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // set delete
     public function deleteSet(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -127,6 +133,7 @@ class AdminController extends Controller
     }
 
 
+    // card show
     public function showCard(Request $request)
     {
         $params = $request->getRouteParams();
@@ -139,6 +146,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // card create
     public function createCard(Request $request, Response $response, Session $session)
     {
 
@@ -181,6 +189,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // card update
     public function updateCard(Request $request, Response $response, Session $session)
     {
 
@@ -194,13 +203,13 @@ class AdminController extends Controller
             $card->loadData($request->getBody());
 
             if ($card->validate()) {
+
+                // uploads image if uploaded else placeholder image used
                 $image = $request->getFile('image');
                 if ($image && $image['error'] === UPLOAD_ERR_OK) {
                     $imagePath = App::$ROOT_DIRECTORY . '/public/img/' . $image['name'];
                     move_uploaded_file($image['tmp_name'], $imagePath);
                     $card->image = '/img/' . $image['name'];
-                } else {
-                    $card->image = '/img/placeholder.png';
                 }
 
                 if ($card->update()) {
@@ -217,6 +226,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // card delete
     public function deleteCard(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -229,6 +239,7 @@ class AdminController extends Controller
             $cardDeck->delete();
         }
 
+        // if the to be deleted card is the only one with this img, delete it from the folder otherwise keep it
         $sameImage = Card::findAll(['image' => $card->image]);
 
         if ($card->image !== '/img/placeholder.png') {
@@ -248,6 +259,7 @@ class AdminController extends Controller
     }
 
 
+    // deck create
     public function createDeck(Request $request, Response $response, Session $session)
     {
 
@@ -278,6 +290,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // deck create on profile
     public function createDeckProfile(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -307,6 +320,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // deck show
     public function showDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -321,6 +335,7 @@ class AdminController extends Controller
         $cardDeck->card_id = 0;
         $cardDeck->deck_id = $deck_id;
 
+        // checks if dupes not higher than 2 and less than 30 cards, then adds a card to the deck
         if ($request->is_method_post()) {
             $cardDeck->loadData($request->getBody());
             $cardDupes = $deck->countCards($cardDeck->card_id);
@@ -350,6 +365,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // removes a card from the deck
     public function removeCardDeck(Request $request, Response $response)
     {
         $params = $request->getRouteParams();
@@ -367,6 +383,7 @@ class AdminController extends Controller
         }
     }
 
+    // deck edit
     public function editDeck(Request $request, Response $response, Session $session)
     {
 
@@ -393,6 +410,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // deck delete
     public function deleteDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -404,13 +422,13 @@ class AdminController extends Controller
             if ($deck->deleteRelated()) {
                 $session->setMessage('danger', 'Deck deleted');
 
-                $currentUrl = $request->getPath();
                 $response->redirect("/dashboard");
                 return;
             }
         }
     }
 
+    // deck delete on profile
     public function deleteDeckProfile(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -428,6 +446,7 @@ class AdminController extends Controller
         }
     }
 
+    // user create
     public function createUser(Request $request, Response $response, Session $session)
     {
         $user = new User();
@@ -457,6 +476,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // user show
     public function showUser(Request $request, Response $response)
     {
         $params = $request->getRouteParams();
@@ -469,6 +489,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // user update
     public function updateUser(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -498,6 +519,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // user delete
     public function deleteUser(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -505,6 +527,7 @@ class AdminController extends Controller
 
         $user = User::findOne(['user_id' => $user_id]);
 
+        // checks if to be deleted user is the current user
         if ($user && $user->user_id === App::$app->user->user_id) {
             $session->setMessage('danger', 'You cannot delete yourself');
             $response->redirect('/dashboard');

@@ -14,11 +14,13 @@ use app\core\middlewares\RoleMiddleware;
 
 class DeckController extends Controller
 {
+    // registers middleware for premium user and admin
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware(['premium_user', 'admin']));
     }
 
+    // deck create
     public function create(Request $request, Response $response, Session $session)
     {
         $deck = new Deck();
@@ -45,6 +47,7 @@ class DeckController extends Controller
         ]);
     }
 
+    // deck show
     public function showDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -59,6 +62,7 @@ class DeckController extends Controller
         $cardDeck->card_id = 0;
         $cardDeck->deck_id = $deck_id;
 
+        // checks if method is post and if dupes not higher than 2 and less than 30 cards, then adds a card to the deck
         if ($request->is_method_post()) {
             $cardDeck->loadData($request->getBody());
             $cardDupes = $deck->countCards($cardDeck->card_id);
@@ -88,6 +92,7 @@ class DeckController extends Controller
         ]);
     }
 
+    // remove a card from the deck
     public function removeCardDeck(Request $request, Response $response)
     {
         $params = $request->getRouteParams();
@@ -105,6 +110,7 @@ class DeckController extends Controller
         }
     }
 
+    // deck edit
     public function editDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();
@@ -130,6 +136,7 @@ class DeckController extends Controller
         ]);
     }
 
+    // deck delete
     public function deleteDeck(Request $request, Response $response, Session $session)
     {
         $params = $request->getRouteParams();

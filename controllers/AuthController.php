@@ -13,11 +13,13 @@ use app\core\middlewares\RoleMiddleware;
 
 class AuthController extends Controller
 {
+    // registers the middleware for quests only on login and register
     public function __construct()
     {
         $this->registerMiddleware(new RoleMiddleware([]))->only(['login', 'register']);
     }
 
+    // register for quests
     public function register(Request $request, Response $response, Session $session)
     {
         if (!App::isGuest()) {
@@ -48,6 +50,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // login for registered users
     public function login(Request $request, Response $response, Session $session)
     {
         if (!App::isGuest()) {
@@ -73,6 +76,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // logout for logged in users
     public function logout(Request $request, Response $response, Session $session)
     {
         App::$app->logout();
